@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <link rel ="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <meta name="author" content="{{ AUTHOR_NAME }}" />
+        <meta
+            name="keywords"
+            content="{{ PAGE_TAGS }}"
+        />
+        <meta
+            name="description"
+            content="{% block page_desc %}{{ META_DESCRIPTION }}{% endblock %}"
+        />
+
+        <title>
+            {% block title %} {{ AUTHOR_NAME }} | {{ AUTHOR_BLURB }}{% endblock %}
+        </title>
+        {% block stylesheet %}
+        <link rel="stylesheet" href="/static/base.css" />
+        {% endblock %}
+    </head>
+
+    <body>
+        <main>{% block content %} {% endblock %}</main>
+
+        <footer>Copyright 2024 by une femme fabuleuse.</footer>
+    </body>
+</html>

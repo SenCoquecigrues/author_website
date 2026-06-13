@@ -23,14 +23,15 @@ from django.urls import include, path
 from . import views
 
 urlpatterns = [
+    path('', include('writer.urls')),
     path("accounts/", include("django.contrib.auth.urls")),
     path('admin/', admin.site.urls),
-    path('', include('writer.urls')),
-    path('members/', include('accounts.urls', namespace='members')),
     path('archives/', include('archives.urls', namespace='archives')),
+    path('coquecigrues/', include('coquecigrues.urls', namespace='coquecigrues')),
     path('gadgets/', include('gadgets.urls', namespace='gadgets:index')),
+    path('members/', include('accounts.urls', namespace='members')),
+    path("pinytree", views.pine_portfolio),
     path('voiture_noire/', include('voiture_noire.urls', namespace='voiture_noire:index')),
-    path("pinytree", views.pine_portfolio)
 ]
 
 handler404 = "core.views.error_404"

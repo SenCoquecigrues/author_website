@@ -1,0 +1,20 @@
+{% extends './base.html' %}
+
+{% block stylesheet %}
+<!-- ADD CUSTOM STYLE -->
+<link rel="stylesheet" href="/static/voiture_noire/member_list.css">
+{% endblock %}
+
+{% block title %}
+    Coquecigrues | Mondes disponibles
+{% endblock %}
+
+{% block content %}
+    <h1>Jeux disponibles</h1>
+    {% if not worlds %}
+        Aucun jeu disponible pour le moment.
+    {% endif %}
+    {% for world in worlds %}
+        {{ world.name }}
+    {% endfor %}
+{% endblock %}

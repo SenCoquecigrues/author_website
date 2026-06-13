@@ -45,6 +45,7 @@ ALLOWED_HOSTS = ['127.0.0.1', env('SITE_URL')]
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'archives.apps.ArchivesConfig',
+    'coquecigrues.apps.CoquecigruesConfig',
     'gadgets.apps.GadgetsConfig',
     'voiture_noire.apps.VoitureNoireConfig',
     'writer.apps.WriterConfig',
