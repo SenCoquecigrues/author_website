@@ -148,7 +148,7 @@ class PromptView(View):
                     )).order_by('-has_creators', 'body')
             case "user_likes_receive":
                 prompt_list = Prompt.objects.annotate(
-                    has_creators=Count(
+                    has_receivers=Count(
                         'would_receive', filter=Q(would_receive__id=request.user.id)
                     )).order_by('-has_receivers', 'body')
             case _:
@@ -163,6 +163,7 @@ def post_prompt(request):
     if new_prompt.is_valid():
         saved_prompt = new_prompt.save()
         saved_prompt.would_create.add(request.user)
+        saved_prompt.would_receive.add(request.user)
         return redirect('voiture_noire:prompts')
     # Todo: return message for ano
 
