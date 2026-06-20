@@ -1,0 +1,65 @@
+{% extends './base.html' %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="/static/voiture_noire/member_list.css">
+{% endblock %}
+
+{% block title %}
+    {{ person.username }}, mon idole
+{% endblock %}
+
+{% block content %}
+
+<h1>Profil de {{ person.username }}</h1>
+
+<hr>
+
+<!-- In case of empty profile -->
+<p>
+    Cette page est-elle laide ? Oui. Mais elle a au moins le mérite d'exister, et toc !
+</p>
+
+{% if person.author_set.all.count == 0 and not person.exchange_participant %}
+    <p>Existe, et c'est déjà très bien.</p> 
+{% endif %}
+<!-- AUTHOR LOGIC -->
+{% for author in person.author_set.all %}
+    <h3>{{ author.nickname }}</h3>
+    <a href="{% url 'archives:author_bibliography' author.id %}">Ses écrits</a>
+
+    {% if author.trackbear_profile != "" %}
+        <h3>Profil Trackbear</h3>
+        <a href="{{ author.trackbear_profile }}">{{ author.trackbear_profile }}</a>
+    {% endif %}
+    {% if author.other_profile_url != "" %}
+        <h3>Autres liens</h3>
+        <a href="{{ author.trackbear_profile }}">{{ author.other_profile_url }}</a>
+    {% endif %}
+{% endfor %}
+
+{% if request.user.exchange_participant and person.exchange_participant %}
+    <!-- EXCHANGE LOGIC -->
+    <h3>AIME</h3>
+        {{ person.exchange_participant.likes | safe }}
+    <h3>N'AIME PAS</h3>
+        {{ person.exchange_participant.dislikes | safe}}
+    <h3>VOUDRAIT :</h3>
+    <ul>
+        {% for prompt in person.would_receive.all|dictsort:"pairing_type" %} 
+            <li>
+                <b>{{ prompt.get_pairing_type_display }}</b> : {{prompt.body}}
+            </li>
+        {% endfor %}
+    </ul>
+    <h3>PEUT CRÉER :</h3>
+    <ul>
+        {% for prompt in person.would_create.all|dictsort:"pairing_type" %} 
+            <li>
+                <b>{{ prompt.get_pairing_type_display }}</b> : {{prompt.body}}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+{% endblock %}

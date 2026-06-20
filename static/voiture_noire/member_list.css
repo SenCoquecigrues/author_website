@@ -54,7 +54,7 @@
         text-align: justify;
     }
 
-    h3, p, a, ul, ol {
+    h3, p, a:not(.member-element-unblurred), ul, ol {
         filter: blur(10px);
     }
 

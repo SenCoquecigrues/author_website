@@ -17,7 +17,11 @@
 <section class="member-list">
     {% for person in Members %}
         <section class="card-member-profile">
-            <h2>{{ person.username }}</h2>
+            <h2>
+                <a class="member-element-unblurred" href="{% url 'voiture_noire:member_profile' person.id %}">
+                    {{ person.username }}
+                </a>
+            </h2>
             <hr>
             <!-- In case of empty profile -->
             {% if person.author_set.all.count == 0 and not person.exchange_participant %}
@@ -52,6 +56,15 @@
                         </li>
                     {% endfor %}
                 </ul>
+                <h3>PEUT CRÉER :</h3>
+                <ul>
+                    {% for prompt in person.would_create.all|dictsort:"pairing_type" %} 
+                        <li>
+                            <b>{{ prompt.get_pairing_type_display }}</b> : {{prompt.body}}
+                        </li>
+                    {% endfor %}
+                </ul>
+
             {% endif %}
         </section>
     {% endfor %}

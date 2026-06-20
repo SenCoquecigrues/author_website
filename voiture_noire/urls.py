@@ -14,6 +14,7 @@ urlpatterns = [
     ),
     path('profile', login_required(views.Profile.as_view()), name='profile'),
     path('everyone', login_required(views.MemberList.as_view()), name='everyone'),
+    path('member/<int:member_id>', login_required(views.member_profile), name='member_profile'),
     path('prompts', login_required(views.PromptView.as_view()), name='prompts'),
     path('post_prompt', login_required(views.post_prompt), name='post_prompt'),
     path('would_not_create/<int:prompt_id>', views.would_not_create, name='would_not_create'),

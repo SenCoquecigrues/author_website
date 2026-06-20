@@ -16,7 +16,7 @@ from .forms import ExchangeParticipantForm, PromptForm
             
 
 class MemberList(generic.ListView):
-    template_name = 'voiture_noire/memberList.html'
+    template_name = 'voiture_noire/member_list.html'
     context_object_name = 'Members'
 
     def get_queryset(self):
@@ -157,6 +157,17 @@ class PromptView(View):
             "form": form,
             "prompt_list": prompt_list
             })
+
+def member_profile(request, member_id):
+    template_name = 'voiture_noire/member_profile.html'
+
+    if request.user.discord_id == "":
+        raise Exception("Must be a discord member")
+
+    member = Member.objects.get(id=member_id)
+
+    return render(request, template_name, {"person": member})
+
 
 def post_prompt(request):
     new_prompt = PromptForm(request.POST)
