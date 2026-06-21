@@ -39,51 +39,91 @@
 
         <table class="table-prompt-list">
             <tr>
+                <th class="prompt-id">
+                    <form method="post" class="form-prompt-table-sorter">
+                        {% csrf_token %}
+                        <input
+                            aria-label="Trier par ID"
+                            type="text" hidden
+                            name="sort_value" value="id"
+                        >
+                        <button type="submit">⇓ Âge</button>
+                    </form>
+                </th>
+
                 <th class="prompt-type">
                     <form method="post" class="form-prompt-table-sorter">
                         {% csrf_token %}
-                        <input type="text" hidden name="sort_value" value="pairing_type">
+                        <input
+                            aria-label="Trier par type de couple"
+                            type="text" hidden
+                            name="sort_value" value="pairing_type"
+                        >
                         <button type="submit">⇓ Type</button>
                     </form>
                 </th>
                 <th class="prompt-body">
                     <form method="post" class="form-prompt-table-sorter">
                         {% csrf_token %}
-                        <input type="text" hidden name="sort_value" value="body">
+                        <input
+                            aria-label="Trier le thème par ordre alphabétique"
+                            type="text" hidden
+                            name="sort_value" value="body"
+                        >
                         <button type="submit">⇓ Thème</button>
                     </form>
                 </th>
                 <th class="prompt-would_create">
                     <form method="post" class="form-prompt-table-sorter">
                         {% csrf_token %}
-                        <input type="text" hidden name="sort_value" value="would_create">
+                        <input
+                            aria-label="Trier selon le nombre de personne qui créeraient pour ce thème"
+                            type="text" hidden
+                            name="sort_value" value="would_create"
+                        >
                         <button type="submit">⇓ Veulent créer</button>
                     </form>
                 </th>
                 <th class="prompt-button">
                     <form method="post" class="form-prompt-table-sorter">
                         {% csrf_token %}
-                        <input type="text" hidden name="sort_value" value="user_likes_create">
+                        <input
+                            aria-label="Trier selon si vous créeriez pour ces thèmes"
+                            type="text" hidden
+                            name="sort_value" value="user_likes_create"
+                        >
                         <button type="submit">⇓⇓⇓</button>
                     </form>
                 </th>
                 <th class="prompt-would_receive">
                     <form method="post" class="form-prompt-table-sorter">
                         {% csrf_token %}
-                        <input type="text" hidden name="sort_value" value="would_receive">
+                        <input
+                            aria-label="Trier selon le nombre de personne qui aimeraient recevoir ce thème"
+                            type="text" hidden
+                            name="sort_value" value="would_receive"
+                        >
                         <button type="submit">⇓ Veulent recevoir</button>
                     </form>
                 </th>
                 <th class="prompt-button">
                     <form method="post" class="form-prompt-table-sorter">
                         {% csrf_token %}
-                        <input type="text" hidden name="sort_value" value="user_likes_receive">
+                        <input
+                            aria-label="Trier selon si vous receveriez pour ces thèmes"
+                            type="text" hidden
+                            name="sort_value" value="user_likes_receive"
+                        >
                         <button type="submit">⇓⇓⇓</button>
                     </form>
                 </th>
             </tr>
             {% for prompt in prompt_list %}
             <tr>
+                <td class="prompt-id">
+                    {{ prompt.id }}
+                </td>
+
                 <td class="prompt-type">
                     {{ prompt.get_pairing_type_display }}
                 </td>

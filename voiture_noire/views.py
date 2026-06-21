@@ -135,6 +135,8 @@ class PromptView(View):
         form = self.form_class(initial=self.initial)
         criteria = request.POST['sort_value']
         match criteria:
+            case "prompt_id":
+                prompt_list = Prompt.objects.order_by(criteria, "id")
             case "would_create":
                 prompt_list = Prompt.objects.annotate(number_of_would_create=Count('would_create')).order_by("number_of_would_create")
             case "would_receive":
