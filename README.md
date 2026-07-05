@@ -15,20 +15,11 @@
 
 
 ## TO-DO
-### Current task: improve archives
-~~- Fix exchange profile~~
-~~- Create new front page to edit ExchangeParticipant~~
-~~- Create new front page to edit Author~~
-~~- Better member list~~
-~~- [ARCHIVES] Pretty recs~~
-~~- [ARCHIVES] Dark mode (fics only)~~
-~~- [ARCHIVES] Gérer plusieurs tailles de texte~~
-~~- [ARCHIVES] Gérer avec/sans serif~~
-~~- [PROFILE] Changing settings activating change in javascript~~
-~~- [ARCHIVES] Sorting with authors and pairing types~~
-- [STORIES] User Reaction (ongoing: back done)
+### Current task: improve Voiture Noire part of the website
+- [ARCHIVES] Add Exchange page for admins to see who can create for whom
+- [ARCHIVES] Make Prompt page mobile-compatible
+- [ARCHIVES] User Reaction (ongoing: back done)
 - [WRITER] Add buttons to filter rants
-- [FIX] User profile
 
 ### Must-have
 - [ARCHIVES] Post : preview fic
