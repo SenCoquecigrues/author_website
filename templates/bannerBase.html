@@ -1,6 +1,6 @@
 <header class="main-site-header">
     <section class="logo-block">
-        <img src="/static/images/simpler_logo_processed_by_imagy.svg"></img>
+        <img src="/static/images/simpler_logo_processed_by_imagy.svg" alt=""></img>
         <p class="logo-title">{{ AUTHOR_NAME }}</p>
         <p class="logo-subtitle">{{ AUTHOR_BLURB }}</p>
     </section>
@@ -8,10 +8,10 @@
     <nav>
         <ul>
             <li id="news-page-li"><a href="{% url 'homepage' %}">Accueil</a></li>
-            <li id="about-li"><a href="{% url 'about' %}">À propos</a></li>
-            <li id="gadgets-li"><a href="{% url 'gadgets:index' %}">Gadgets</a></li>
             <li id="vn-li"><a href="{% url 'voiture_noire:index' %}">Bibliothèque</a></li>
+            <li id="gadgets-li"><a href="{% url 'gadgets:index' %}">Gadgets</a></li>
+            <li id="about-li"><a href="{% url 'about' %}">À propos</a></li>
         </ul>
-        <img class ="nav-underliner" src="/static/images/separateur_big_set_sl.svg"></img>
+        <img class ="nav-underliner" src="/static/images/separateur_big_set_sl.svg"  alt=""></img>
     </nav>
 </header>
