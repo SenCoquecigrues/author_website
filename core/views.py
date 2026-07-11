@@ -1,8 +1,4 @@
-from django.conf import settings
-from django.http import FileResponse, HttpRequest, HttpResponse
 from django.shortcuts import render
-from django.views.decorators.cache import cache_control
-from django.views.decorators.http import require_GET
 
 def error_404(request, exception):
     return render(request, 'error_404.html')

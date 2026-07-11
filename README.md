@@ -1,58 +1,18 @@
 # Site d'autrice
 
-1. [TO-DO](#to-do)
-   - [Must-have](#must-have)
-   - [Nice to have](#nice-to-have)
-   - [Last priority](#last-priority)
-2. [Using the app locally](#local-use)
+1. [Using the app locally](#local-use)
    - [Installing the app](#installing)
    - [Launching the app](#launching)
    - [Good practices](#good-practices)
-3. [Setting the app in o2switch (our heberger)](#setting-the-app-in-o2switch)
-4. [Credits](#credits)
-5. [Useful commands](#useful-commands)
+2. [Setting the app in o2switch (our heberger)](#setting-the-app-in-o2switch)
+3. [TO-DO](#to-do)
+   - [Must-have](#must-have)
+   - [Nice to have](#nice-to-have)
+   - [Last priority](#last-priority)
+4. [Useful commands](#useful-commands)
+5. [Credits](#credits)
 6. [Random notes](#random-notes)
 
-
-## TO-DO
-### Current task: improve archives
-~~- Fix exchange profile~~
-~~- Create new front page to edit ExchangeParticipant~~
-~~- Create new front page to edit Author~~
-~~- Better member list~~
-~~- [ARCHIVES] Pretty recs~~
-~~- [ARCHIVES] Dark mode (fics only)~~
-~~- [ARCHIVES] Gérer plusieurs tailles de texte~~
-~~- [ARCHIVES] Gérer avec/sans serif~~
-~~- [PROFILE] Changing settings activating change in javascript~~
-~~- [ARCHIVES] Sorting with authors and pairing types~~
-- [STORIES] User Reaction (ongoing: back done)
-- [WRITER] Add buttons to filter rants
-- [FIX] User profile
-
-### Must-have
-- [ARCHIVES] Post : preview fic
-- [STORIES] Post comment (ongoing: lacking view + checks)
-- [STORIES] Delete chapter
-- [STORIES] User Comment
-- [STORIES] Add PDF thanks to [this library](https://www.geeksforgeeks.org/creating-ebooks-with-borb-in-python/).
-available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). Instruction book can be found
-[here](https://github.com/jorisschellekens/borb-examples/tree/master/chapter_001).
-- [STORIES] Add HTML
-- [STORIES] Add PDF support for multiple chapters
-- [STORIES] Add HTML support for multiple chapters
-
-### Nice to have
-- [STORIES] Add settings buttons to stories themselves
-- [PROMPTS] Search prompts through text
-- [STORIES] Replace ratings as instances by rating as choices? 
-
-### Last priority
-- [PINE] (Mobile) : Rearrange banner
-- [PINE] (Mobile) Mobile : 50 % of page as a mosaic
-- [PINE] (Computer) Commissions : final page
-- [PINE] (Mobile) Commissions : final page
-- [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
 
 ## LOCAL USE
 
@@ -107,14 +67,13 @@ The app should be launched from `http://127.0.0.1:8000/`; you can go to
 `http://127.0.0.1:8000/admin/` for admin options.
 
 ### Good practices
-We try to preface commits with "feat", "fix", or "chore" for clarity's sake. Do let me know 
+**We try to preface commits with "feat", "fix", or "chore"** for clarity's sake. Do let me know 
 if you have other preferences.
 
-We use [PEP 8](https://peps.python.org/pep-0008/) for Python. If wished, I can include a linting 
-library in our packages, such as [Flake8](https://flake8.pycqa.org/en/latest/) or 
-[Black](https://pypi.org/project/black/).
+**We use [PEP 8](https://peps.python.org/pep-0008/) for Python**. 
+We use [Ruff](https://docs.astral.sh/ruff/installation/) as our linter/formatter.
 
-There are tests available, though not all pages or functions are tested because the tests were 
+**There are tests available**, though not all pages or functions are tested because the tests were 
 added late and this is done with my spare energy and/or I'm a terrible human being.
 
 ## Setting the app in o2switch
@@ -137,13 +96,43 @@ Check that all migrations are applied.
 1. If on the front end: run `python manage.py collectstatic`, then restart
 2. If involving models: run migrations
 
-## Code credits
-[Rich text editor](https://codepen.io/BibekOli/pen/abRgbVW)
+
+## TO-DO
+### Current task: improve Voiture Noire & Accessibility
+- [STORIES] User Reaction (ongoing: back done)
+- [WRITER] Add buttons to filter rants
+
+### Must-have
+- [ARCHIVES] Post : preview fic
+- [STORIES] Post comment (ongoing: lacking view + checks)
+- [STORIES] Delete chapter
+- [STORIES] User Comment
+- [STORIES] Add PDF thanks to [this library](https://www.geeksforgeeks.org/creating-ebooks-with-borb-in-python/).
+available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). Instruction book can be found
+[here](https://github.com/jorisschellekens/borb-examples/tree/master/chapter_001).
+- [STORIES] Add HTML
+- [STORIES] Add PDF support for multiple chapters
+- [STORIES] Add HTML support for multiple chapters
+
+### Nice to have
+- [STORIES] Add settings buttons to stories themselves
+- [PROMPTS] Search prompts through text
+- [STORIES] Replace ratings as instances by rating as choices? 
+
+### Last priority
+- [PINE] (Mobile) : Rearrange banner
+- [PINE] (Mobile) Mobile : 50 % of page as a mosaic
+- [PINE] (Computer) Commissions : final page
+- [PINE] (Mobile) Commissions : final page
+- [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
 
 
 ## Useful commands
-To export the db, app by app, into a json format suitable for fixture:
-`python manage.py dumpdata voiture_noire --settings=core.settings > voiture_noire/fixtures/voiture_noire.json`
+To use Ruff, our linter/formatter:
+```python
+ruff check   # Lint all files in the current directory.
+ruff format  # Format all files in the current directory.
+```
 
 To run the tests specific to one particular TestCase:
 `python manage.py test tests.accounts.test_birthdays`
@@ -151,6 +140,14 @@ To run the tests specific to one particular TestCase:
 
 (In prod) To run statics and clear them, in case the files got corrupted (don't forget to restart afterwards!):
 `python manage.py collectstatic --clear`
+
+To export the db, app by app, into a json format suitable for fixture:
+`python manage.py dumpdata voiture_noire --settings=core.settings > voiture_noire/fixtures/voiture_noire.json`
+
+
+## Code credits
+[Rich text editor](https://codepen.io/BibekOli/pen/abRgbVW)
+
 
 ## Random notes
 [CONVERT HTML TO PDF](https://doc.courtbouillon.org/weasyprint/stable/)

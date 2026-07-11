@@ -1,5 +1,4 @@
 from datetime import date
-from random import choices
 
 from django.db.models import Q
 from archives.models import Author, Story

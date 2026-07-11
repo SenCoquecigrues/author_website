@@ -99,9 +99,9 @@
 
             <div class="section-chapter-btns">
                 {% for chapter in chapters %}
-                    <a href="{% url 'archives:edit_chapter' story_id chapter.number %}">{{ chapter.number }}</a>
+                    <a href="{% url 'library:edit_chapter' story_id chapter.number %}">{{ chapter.number }}</a>
                 {% endfor %}
-                <a href="{% url 'archives:publish_chapter' story_id %}">Ajouter un chapitre</a>
+                <a href="{% url 'library:publish_chapter' story_id %}">Ajouter un chapitre</a>
             </div>
         </section>
 

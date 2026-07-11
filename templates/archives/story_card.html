@@ -2,7 +2,7 @@
     <p class="article-story-date">{{ story.date }}</p>
     <div class="div-story-header-block">
         <h2 class="article-story-title">
-            <a href="{% url 'archives:read_story' story.id 1 %}">
+            <a href="{% url 'library:read_story' story.id 1 %}">
                 {{ story.story_title }}</a>
             <span class="author-name">par {{ story.author }}</span>
         </h2>
@@ -11,7 +11,7 @@
         <div class="div-story-title-buttons">
             <a
                 class="article-story-btn"
-                href="{% url 'archives:edit_story' story.id %}"
+                href="{% url 'library:edit_story' story.id %}"
                 aria-label="Éditer"
                 title="Éditer"
             >
@@ -19,7 +19,7 @@
             </a>
             <a
                 class="article-story-btn"
-                href="{% url 'archives:publish_chapter' story.id %}"
+                href="{% url 'library:publish_chapter' story.id %}"
                 aria-label="Ajouter un chapitre"
                 title="Ajouter un chapitre"
             >+</a>
@@ -85,7 +85,7 @@
         {% for chapter in story.chapters.all %}
             <a
                 class="article-story-btn"
-                href="{% url 'archives:read_story' story.id chapter.number %}"
+                href="{% url 'library:read_story' story.id chapter.number %}"
             >
             {{ chapter.number }}
             </a>

@@ -23,7 +23,7 @@
 <section class="library-page">
     {% if user.is_authenticated %}        <a
             class="library-page-link" 
-            href="{% url 'archives:publish_story' %}"
+            href="{% url 'library:publish_story' %}"
         >Publier</a>
     {% endif %}
 
@@ -44,7 +44,7 @@
         <section id="random-rec">
             <p>✧ La recommandation du Saint Algorithme : 
                 <strong>
-                    ˚₊‧✩‧₊˚ <a href="{% url 'archives:read_story' random_rec.id 1 %}">{{random_rec.story_title }}</a> ˚₊‧✩‧₊˚ ,
+                    ˚₊‧✩‧₊˚ <a href="{% url 'library:read_story' random_rec.id 1 %}">{{random_rec.story_title }}</a> ˚₊‧✩‧₊˚ ,
                     de {{ random_rec.author }} !
                 </strong>
             </p>
@@ -91,7 +91,7 @@
         <div class="story-delete-btn-div">
             <!-- Sen: edit here -->
             <a class="story-delete-yes"
-                href="{% url 'archives:story_delete' 1000 %}"
+                href="{% url 'library:story_delete' 1000 %}"
                 name="Supprimer"
             >Oui.</a>
             <button 
@@ -105,7 +105,7 @@
 </section>
 
 <script>
-    const deleteStoryUrl = "{% url 'archives:story_delete' 0 %}"
+    const deleteStoryUrl = "{% url 'library:story_delete' 0 %}"
     let deleteDialog = document.getElementById("story-delete-modal");
     
     function showDeleteModal(btn, elementName) {

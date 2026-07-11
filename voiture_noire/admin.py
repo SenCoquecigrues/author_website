@@ -1,5 +1,3 @@
-from django.utils.translation import gettext, gettext_lazy as _
-
 from django.contrib import admin
 from .models import ExchangeParticipant, Prompt
 

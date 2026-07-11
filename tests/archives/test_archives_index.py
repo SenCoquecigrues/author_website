@@ -4,7 +4,6 @@ from datetime import date, timedelta
 from django.db.models import Q
 from django.test import Client, TestCase
 from django.urls import reverse
-from voiture_noire.models import ExchangeParticipant
 from accounts.models import Member
 from archives.models import Author, PairingType, Story
 
@@ -93,7 +92,7 @@ class ArchivesIndexTestCase(TestCase):
         self.assertNotIn("Members only", visibility_status) 
         self.assertIn("Everyone", visibility_status)
         self.assertEqual(fetched_stories[0], expected_stories[0])
-        self.assertEqual(lent(fetched_stories), 1)
+        self.assertEqual(len(fetched_stories), 1)
 
     def test_voiture_noire_index_logged(self):
         # Members see all available stories except the others' Private ones.
@@ -110,6 +109,7 @@ class ArchivesIndexTestCase(TestCase):
         ).count()
 
         self.assertEqual(len(fetched_stories), 4)
+        self.assertEqual(len(fetched_stories), count_relevant_stories)
         self.assertIn("Private", story_titles)
         self.assertNotIn("Future Title Author 1", story_titles)
         self.assertIn("Future Title Author 2", story_titles)
@@ -124,10 +124,6 @@ class ArchivesIndexTestCase(TestCase):
         )
         fetched_stories = response.context_data['stories']
         story_titles = {story.story_title for story in fetched_stories}
-        user_id = Member.objects.get(username="Author2").id
-        count_relevant_stories = Story.objects.filter(
-            Q(author__member_id=user_id) | ((~Q(visibility='Private') & Q(story_date__lte=date.today())))
-        ).count()
 
         self.assertEqual(len(fetched_stories), 1)
         self.assertIn("Future Title Author 2", story_titles)

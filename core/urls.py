@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('writer.urls')),
     path('members/', include('accounts.urls', namespace='members')),
-    path('archives/', include('archives.urls', namespace='archives')),
+    path('library/', include('archives.urls', namespace='library')),
     path('gadgets/', include('gadgets.urls', namespace='gadgets:index')),
     path('voiture_noire/', include('voiture_noire.urls', namespace='voiture_noire:index')),
     path("pinytree", views.pine_portfolio)

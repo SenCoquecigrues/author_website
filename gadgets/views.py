@@ -1,7 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
-from django.views import generic
+from django.shortcuts import render
 
 from .ressources import YaoiGenerator
 

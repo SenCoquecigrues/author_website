@@ -13,9 +13,3 @@ class PromptForm(forms.ModelForm):
     class Meta:
         model = Prompt
         fields = ["body", "pairing_type"]
-
-
-class PromptForm(forms.ModelForm):
-    class Meta:
-        model = Prompt
-        fields = ["body", "pairing_type"]

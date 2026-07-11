@@ -30,7 +30,7 @@
             <!-- AUTHOR LOGIC -->
             {% for author in person.author_set.all %}
                 <h3>{{ author.nickname }}</h3>
-                <a href="{% url 'archives:author_bibliography' author.id %}">Ses écrits</a>
+                <a href="{% url 'library:author_bibliography' author.id %}">Ses écrits</a>
 
                 {% if author.trackbear_profile != "" %}
                     <h3>Profil Trackbear</h3>

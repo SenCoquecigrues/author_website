@@ -4,7 +4,7 @@ from os import path
 from django.conf import settings
 
 def author_settings(request):
-    if settings.DEBUG == True:
+    if settings.DEBUG:
         environ.Env.read_env(path.join(settings.BASE_DIR, '.env'))
 
     env = environ.Env(

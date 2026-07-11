@@ -1,7 +1,4 @@
-from datetime import date, datetime
-
 from django.contrib import messages
-from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
 from django.shortcuts import render, redirect
 from django.views import generic, View
@@ -184,7 +181,7 @@ def would_create(request, prompt_id):
     try:
         prompt = Prompt.objects.get(id=prompt_id)
         prompt.would_create.add(request.user)
-    except:
+    except Exception:
         return redirect('500')
     return redirect('voiture_noire:prompts')
 
@@ -192,7 +189,7 @@ def would_not_create(request, prompt_id):
     try:
         prompt = Prompt.objects.get(id=prompt_id)
         prompt.would_create.remove(request.user)
-    except:
+    except Exception:
         return redirect('500')
     return redirect('voiture_noire:prompts')
 
@@ -200,7 +197,7 @@ def would_receive(request, prompt_id):
     try:
         prompt = Prompt.objects.get(id=prompt_id)
         prompt.would_receive.add(request.user)
-    except:
+    except Exception:
         return redirect('500')
     return redirect('voiture_noire:prompts')
 
@@ -208,7 +205,7 @@ def would_not_receive(request, prompt_id):
     try:
         prompt = Prompt.objects.get(id=prompt_id)
         prompt.would_receive.remove(request.user)
-    except:
+    except Exception:
         return redirect('500')
     return redirect('voiture_noire:prompts')
 

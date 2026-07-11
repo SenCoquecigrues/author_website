@@ -1,16 +1,10 @@
-import datetime
-import tempfile
-
 from django.contrib import messages
-from django.db.models import Q
-from django.http import HttpResponseNotAllowed, HttpResponse, JsonResponse
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
 from django.views import generic
 
-from archives.forms import Author, ChapterForm, StoryForm
-from archives.models import Chapter, Story, PairingType
-from archives.utils import StoryDigester
+from archives.forms import ChapterForm
+from archives.models import Chapter, Story
 
 
 class ChapterPostView(generic.View):

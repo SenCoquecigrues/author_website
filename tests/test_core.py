@@ -1,8 +1,7 @@
 from django.urls import reverse
-from django.test import Client, TestCase
+from django.test import TestCase
 
 from accounts.models import Member
-from voiture_noire.models import ExchangeParticipant
 
 
 class CoreTestCase(TestCase):

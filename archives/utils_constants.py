@@ -75,9 +75,6 @@ pdf_normal_page_style = """
     }
 """
 
-pdf_normal_page_body = """
-
-"""
 pdf_fic_base = """
 <html>
 

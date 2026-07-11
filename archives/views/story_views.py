@@ -1,11 +1,8 @@
 import datetime
-import tempfile
 
 from django.contrib import messages
-from django.db.models import Q
 from django.http import HttpResponseNotAllowed, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
 from django.views import generic
 
 from archives.forms import Author, ChapterForm, StoryForm, StoryFilterForm
@@ -216,42 +213,11 @@ def download_html(request, story_id):
 
     return response
 
-def download_pdf(request, story_id):
-    digester = StoryDigester(story_id)
-    title = digester.return_title()
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{title}.pdf"'
-
-    transformer = pisa.CreatePDF(
-        digester.pdf_story(),
-        dest=response,
-    )
-
-    if transformer.err:
-        return render(
-        request,
-        'error_500.html'
-        )
-
-    return response
-
-def download_epub(request, story_id):
-    digester = StoryDigester(story_id)
-    title = digester.return_title()
-
-    response = HttpResponse(
-        digester.epub_story(),
-        content_type='application/epub',
-        headers={'Content-Disposition': f'attachment; filename="{title}.epub"'},
-    )
-
-    return response
-
 def clap(request, story_id):
     try:
         story = Story.objects.get(id=story_id)
         story.clap=story.clap+1
         story.save()
         return JsonResponse({"code": 200})
-    except:
+    except Exception:
         return JsonResponse({"code": 500})

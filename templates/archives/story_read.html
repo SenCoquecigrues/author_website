@@ -26,7 +26,7 @@
         <div class="story-header-btns">
             <a
             class="vn-archives-btn-or-a chapter-nav-link"
-            href="{% url 'archives:edit_story' story.id %}"
+            href="{% url 'library:edit_story' story.id %}"
             >
                 Éditer
             </a>
@@ -83,13 +83,13 @@
             {% if chapter.number > 1 %}
                 <a
                     class="vn-archives-btn-or-a chapter-nav-link" 
-                    href="{% url 'archives:read_story' story.id 1 %}"
+                    href="{% url 'library:read_story' story.id 1 %}"
                 >
                     Premier chapitre
                 </a>
                 <a
                     class="vn-archives-btn-or-a chapter-nav-link" 
-                    href="{% url 'archives:read_story' story.id chapter.number|add:-1 %}"
+                    href="{% url 'library:read_story' story.id chapter.number|add:-1 %}"
                 >
                     Précédent
                 </a>
@@ -98,13 +98,13 @@
             {% if chapter.number != story.number_of_chapter %}
             <a
                 class="vn-archives-btn-or-a chapter-nav-link" 
-                href="{% url 'archives:read_story' story.id chapter.number|add:1 %}"
+                href="{% url 'library:read_story' story.id chapter.number|add:1 %}"
             >
                 Suivant
             </a>
             <a
                 class="vn-archives-btn-or-a chapter-nav-link" 
-                href="{% url 'archives:read_story' story.id story.number_of_chapter %}"
+                href="{% url 'library:read_story' story.id story.number_of_chapter %}"
             >
                 Dernier chapitre
             </a>

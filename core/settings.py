@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import os
 import environ
 from pathlib import Path
 
@@ -96,7 +95,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if DEBUG == True:
+if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -158,7 +157,7 @@ LOCALE_PATHS = [BASE_DIR / 'locale',]
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static',]
 JSON_DIRS = BASE_DIR / "utils/json"
-if DEBUG == False:
+if not DEBUG:
     STATIC_ROOT = BASE_DIR / 'staticfiles'
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

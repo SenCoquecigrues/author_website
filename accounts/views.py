@@ -2,9 +2,8 @@ import json
 from datetime import date, datetime
 
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.views import generic, View
+from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from accounts.models import Member
@@ -33,7 +32,7 @@ class Birthday(View):
     def post(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)
-        except:
+        except Exception:
             return JsonResponse({'errorMsg': 'Invalid JSON'}, status=400)
 
         date_param = data.get('birthday')
@@ -47,7 +46,7 @@ class Birthday(View):
 
         try:
             query_date = datetime.strptime(date_param, '%Y-%m-%d').date()
-        except:
+        except Exception:
             return JsonResponse(
             {'errorMsg': "Expecting a 'birthday' field (YYYY-MM-DD) and a 'discord_id' field."},
             status=400
@@ -55,14 +54,14 @@ class Birthday(View):
 
         try:
             member = Member.objects.get(discord_id=discord_id_param)
-        except:
+        except Exception:
             return JsonResponse(
             {'errorMsg': "No member with that discord id."},
             status=404
         )
 
-        birthday_person = Member.objects.get(discord_id=discord_id_param)
-        birthday_person.birthday = datetime.strptime(date_param, '%Y-%m-%d').date()
+        birthday_person = member
+        birthday_person.birthday = query_date
         birthday_person.save()
 
         return JsonResponse({'errorMsg':""})

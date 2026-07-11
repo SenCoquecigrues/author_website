@@ -25,5 +25,5 @@ class ArchivesConfig(AppConfig):
                 PairingType.objects.create(pairing_type="mm", label="M/M")
                 PairingType.objects.create(pairing_type="ff", label="F/F")
                 PairingType.objects.create(pairing_type="gen", label="Aucun")
-        except:
+        except Exception:
             pass
