@@ -86,14 +86,19 @@
     {% endfor %}
 
     <dialog id="story-delete-modal">
-        <h3 id="story-delete-title">This modal dialog has a groovy backdrop!</h3>
+        <h3 id="story-delete-title">Temporary title</h3>
+
         <div class="story-delete-btn-div">
+            <!-- Sen: edit here -->
             <a class="story-delete-yes"
-                href="deleteItem({{ story.id }})">Oui.</a>
+                href="{% url 'archives:story_delete' 1000 %}"
+                name="Supprimer"
+            >Oui.</a>
             <button 
                 class="story-delete-no"
                 type="button"
                 onclick="closeStoryDeleteModal()"
+                name="Ne pas supprimer"
             >Noooon !! ):</button>
         </div>
     </dialog>
