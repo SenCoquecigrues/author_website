@@ -27,7 +27,6 @@ urlpatterns = [
     path('gadgets/', include('gadgets.urls', namespace='gadgets')),
     path('voiture_noire/', include('voiture_noire.urls', namespace='voiture_noire')),
     path("pinytree", views.pine_portfolio),
-    path("bleh", views.bleh),
 ]
 
 handler404 = "core.views.error_404"

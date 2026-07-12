@@ -97,7 +97,7 @@
 
 /********************** MEDIA QUERIES ***************************/
 /********* PHONES */
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 935px) {
     .main-site-header {
         display: flex;
         flex-flow: row;
@@ -118,24 +118,32 @@
     }
 }
 
-@media screen and (min-width: 601px) and (max-width: 700px) {
+@media screen and (max-width: 430px) {
     @counter-style arrow {
         system: cyclic;
         symbols: " 𒌋";
         suffix: " ";
     }
 
+    .logo-block {
+        display: none;
+    }
+
     .main-site-header {
+        justify-content: end;
+
         li {
             list-style-type: none;
             margin: 12px;
             direction: rtl; 
             list-style-type: arrow;
         }
+
     }
 }
+
 /********* TABLETS & MORE */
-@media screen and (min-width: 701px) {
+@media screen and (min-width: 936px) {
     .main-site-header {
         display: flex;
         flex-flow: row;
