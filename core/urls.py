@@ -15,11 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-# from rest_framework import routers
 
-# router = routers.DefaultRouter()
-# router.register(r'users', views.UserViewSet)
-# router.register(r'groups', views.GroupViewSet)
 from . import views
 
 urlpatterns = [
@@ -30,7 +26,7 @@ urlpatterns = [
     path('library/', include('archives.urls', namespace='library')),
     path('gadgets/', include('gadgets.urls', namespace='gadgets:index')),
     path('voiture_noire/', include('voiture_noire.urls', namespace='voiture_noire:index')),
-    path("pinytree", views.pine_portfolio)
+    path("pinytree", views.pine_portfolio),
 ]
 
 handler404 = "core.views.error_404"

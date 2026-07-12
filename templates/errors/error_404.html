@@ -1,0 +1,15 @@
+{% extends './base.html' %}
+
+{% block title %}
+    Ciel, une erreur 404 !
+{% endblock %}
+
+{% block content %}
+    <h1>Une 404 ! C'est sans doute la faute de quelqu'un !</h1>
+    <p>Cette page n'existe pas (ou plus, qui sait ? La réalité
+        n'est-elle pas qu'éphémère, une bulle de savon abandonnée
+         au sirocco du temps ? Ça fait réfléchir.)</p>
+    <p>Je vous suggère de 
+        <a href="{% url 'voiture_noire:index' %}">compulser des pages qui existent</a>.
+    </p>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends './base.html' %}
+
+{% block title %}
+    Fichtre, une 500 !
+{% endblock %}
+
+{% block content %}
+<h1>Hélas, l'erreur 500</h1>
+<p>
+    Quelque chose chose de terrible vient de se passer. N'hésitez pas 
+    à me signaler l'erreur et/ou à me regarder d'un air très fâché et/ou 
+    à partir vous plaindre de moi auprès d'une tierce partie (c'est 
+    probablement mérité).
+</p>
+    <p>Je vous suggère de 
+        <a href="{% url 'voiture_noire:index' %}">revenir sur des pages qui marchent</a>,
+        sauf si vous cherchiez déjà à vous y rendre, auquel cas c'est très fâcheux.
+    </p>
+{% endblock %}

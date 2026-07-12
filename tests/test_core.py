@@ -1,7 +1,6 @@
 from django.urls import reverse
 from django.test import TestCase
 
-from accounts.models import Member
 
 """
     This tests all main parts of the website: the library,
