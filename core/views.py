@@ -11,3 +11,9 @@ def pine_portfolio(request):
         request,
         'pinytree/pine_portfolio.html'
     )
+
+def bleh(request):
+    return render(
+        request,
+        'errors/error_404.html'
+    )

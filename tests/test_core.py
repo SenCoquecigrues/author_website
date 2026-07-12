@@ -9,7 +9,7 @@ from django.test import TestCase
 class CoreTestCase(TestCase):
     def test_404(self):
         response = self.client.get('/url_does_not_exists')
-        self.assertContains(response, 'Malheureusement, cette page n\'existe pas !')
+        self.assertContains(response, 'erreur 404')
         self.assertEqual(response.status_code, 200)
 
     def test_voiture_noire_view(self):

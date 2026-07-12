@@ -24,9 +24,10 @@ urlpatterns = [
     path('', include('writer.urls')),
     path('members/', include('accounts.urls', namespace='members')),
     path('library/', include('archives.urls', namespace='library')),
-    path('gadgets/', include('gadgets.urls', namespace='gadgets:index')),
-    path('voiture_noire/', include('voiture_noire.urls', namespace='voiture_noire:index')),
+    path('gadgets/', include('gadgets.urls', namespace='gadgets')),
+    path('voiture_noire/', include('voiture_noire.urls', namespace='voiture_noire')),
     path("pinytree", views.pine_portfolio),
+    path("bleh", views.bleh),
 ]
 
 handler404 = "core.views.error_404"
