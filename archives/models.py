@@ -24,6 +24,10 @@ class Author(models.Model):
     trackbear_profile = models.CharField(
         max_length=100, default='', blank=True
     )
+    trackbear_api_key = models.CharField(
+        max_length=100, default='', blank=True
+    )
+
     other_profile_url = models.CharField(
         max_length=100, default='', blank=True
     )

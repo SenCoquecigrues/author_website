@@ -7,7 +7,7 @@ from django.views import generic
 
 from archives.forms import Author, ChapterForm, StoryForm, StoryFilterForm
 from archives.models import Chapter, Story, PairingType
-from archives.utils import StoryDigester
+from archives.utils.story_exporter import StoryDigester
 
 from utils import stories_handler
 

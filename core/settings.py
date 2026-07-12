@@ -20,7 +20,8 @@ env = environ.Env(
     DB_NAME=(str, 'bleble'),
     DB_USER_NAME=(str, 'bleble'),
     DB_USER_PASSWORD=(str, 'bleble'),
-    SITE_URL=(str, 'my_site_url')
+    SITE_URL=(str, 'my_site_url'),
+    TRACKBEAR_AGENT=(str, 'your trackbear agent')
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,9 +39,10 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1', env('SITE_URL')]
 
+# ENV VARIABLES FOR SPECIFIC APPS
+TRACKBEAR_AGENT = env("TRACKBEAR_AGENT")
 
 # Application definition
-
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'archives.apps.ArchivesConfig',

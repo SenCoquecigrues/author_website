@@ -7,7 +7,8 @@ class AuthorForm(forms.ModelForm):
         model = Author
         fields = [
             'nickname', 'criminal',
-            'trackbear_profile', 'other_profile_url'
+            'trackbear_profile', 'trackbear_api_key',
+            'other_profile_url'
         ]
 
 
@@ -97,5 +98,3 @@ class PairingTypeForm(forms.ModelForm):
     class Meta:
         model = PairingType
         fields = '__all__'
-
-# FOR PUBLISHING

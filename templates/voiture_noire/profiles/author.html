@@ -22,6 +22,15 @@
             {{ author_form.other_profile_url }}
         </div>
 
+        <div class="form-profile-item">
+            <label for="id_trackbear_api_key">Clef API de Trackbear</label>
+            <p>
+                Cette clef peut être générée <a href="https://trackbear.app/account/api-keys">ici</a>
+                et servira à afficher les objectifs et projets que vous avez rendus publics !
+            </p>
+            {{ author_form.trackbear_api_key }}
+        </div>
+
         <input type="hidden" name="form_type" value="author">
         <div hidden>{{ author_form.criminal }}</div>
 

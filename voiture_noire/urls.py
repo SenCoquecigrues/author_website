@@ -22,4 +22,5 @@ urlpatterns = [
     path('would_not_create/<int:prompt_id>', login_required(views.would_not_create), name='would_not_create'),
     path('would_receive/<int:prompt_id>', login_required(views.would_receive), name='would_receive'),
     path('would_not_receive/<int:prompt_id>', login_required(views.would_not_receive), name='would_not_receive'),
+    path('test_get_trackbear_projects/<int:user_id>', views.get_public_trackbear_projects, name="heh")
 ]

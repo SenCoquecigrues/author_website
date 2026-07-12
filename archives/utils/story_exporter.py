@@ -1,7 +1,7 @@
 # from ebooklib import epub
 
-from .models import Story, Chapter
-from .utils_constants import html_fic_base, numbered_chapter_title, pdf_fic_base, pdf_page_title_style, pdf_normal_page_style
+from ..models import Story, Chapter
+from .story_exporter_constants import html_fic_base, numbered_chapter_title, pdf_fic_base, pdf_page_title_style, pdf_normal_page_style
 
 
 class StoryDigester:

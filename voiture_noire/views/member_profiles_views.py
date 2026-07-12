@@ -1,4 +1,7 @@
+import asyncio
+
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import generic, View
 
@@ -6,6 +9,7 @@ from accounts.forms import MemberSelfEditForm
 from accounts.models import Member
 from archives.forms import AuthorForm, ReaderForm
 from archives.models import Author, Reader, Story
+from archives.utils.trackbear import TrackbearConnector
 
 from voiture_noire.models import ExchangeParticipant
 from voiture_noire.forms import ExchangeParticipantForm
@@ -129,3 +133,33 @@ def brand_as_criminal(request, author_id):
         author.save()
 
     return redirect('voiture_noire:profile')
+
+"""
+    Test view to get Trackbear projects for a given user.
+"""
+def get_public_trackbear_projects(request, user_id: int):
+    member = Member.objects.filter(id=user_id).first()
+
+    if not member:
+        return JsonResponse(
+            {
+                "project_list": []
+            }
+        )
+
+    author_profile = Author.objects.filter(member=member).first()
+    if not author_profile:
+        return JsonResponse(
+            {
+                "project_list": []
+            }
+        )
+
+    project_list = asyncio.run(
+        TrackbearConnector.get_author_projects(author_profile)
+    )
+    return JsonResponse(
+        {
+            "project_list": project_list
+        }
+    )
