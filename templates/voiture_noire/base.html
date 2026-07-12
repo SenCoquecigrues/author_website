@@ -60,12 +60,7 @@
 
                     <li><a href="{% url 'voiture_noire:profile' %}">Paramètres</a></li>
                 {% endif %}
-
                 </ul>
-
-            {% if user.is_authenticated %}
-                <p id="welcome-blurb">Bienvenue, <b>{{ user.username }}</b> !</p>
-            {% endif %}
         </nav>
         
         <main>{% block content %} {% endblock %}</main>
