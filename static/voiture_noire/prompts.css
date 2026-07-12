@@ -28,6 +28,7 @@
 .section-prompt-list {
     display: flex;
     flex-flow: column;
+    min-width: 700px;
 }
 
 h2 {
@@ -48,8 +49,9 @@ h2 {
 }
 
 .table-prompt-list {
+    overflow-x: auto;
+
     align-self: center;
-    width: 85%;
     text-align: left;
     color: var(--jet-black);
 
