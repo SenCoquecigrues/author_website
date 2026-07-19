@@ -62,6 +62,11 @@
             {% else %}
             <span class="span-story-ongoing">En cours</span>
             {% endif %}
+
+            {% if story.author.member == user %}
+                ❖ Applaudissements : {{ story.clap }}  
+            {% endif %}
+
         </p>
     </div>
     

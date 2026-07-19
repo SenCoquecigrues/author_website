@@ -99,7 +99,9 @@ Check that all migrations are applied.
 
 ## TO-DO (v. 0.7)
 ### Current task: archives improvements
+- [STORIES] Author can see number of reactions per story
 - [STORIES] Add HTML export to stories
+- [STORIES] Better story_card element display flexibility
 
 ### Must-have
 - [WRITER] Add buttons to filter rants
@@ -126,12 +128,13 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [PINE] (Mobile) Commissions : final page
 - [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
 
-### Done
+### Version 0.7 : adding reaction and clapping
 - [STORIES] User Clapping (calling back)
 - [STORIES] User Clapping (user see interaction)
 - [STORIES] User Reactions: functional back calls
 - [STORIES] User Reactions: selected reactions show up on loading
 - [STORIES] User Reactions: selected reactions show up on change
+- [STORIES] Author can see number of claps per stories
 
 
 ## Useful commands
