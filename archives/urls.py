@@ -13,12 +13,12 @@ urlpatterns = [
     # Story
     path('publish', login_required(views.StoryPublishView.as_view()), name="publish_story"),
     path('<int:story_id>/<int:chapter_number>', views.StoryReadView.as_view(), name="read_story"),
-    path("<int:story_id>/clap", views.clap_story, name="clap"),
+    path("<int:story_id>/clap", login_required(views.clap_story), name="clap"),
     path('<int:story_id>/edit', login_required(views.StoryEditView.as_view()), name="edit_story"),
     path('<int:story_id>/delete', login_required(views.story_delete), name="story_delete"),
     # Chapter
     path('<int:story_id>/publish', login_required(views.ChapterPostView.as_view()), name="publish_chapter"),
-    path("<int:chapter_id>/react_to_story", login_required(views.react_to_story), name="react_to_story"),
+    path("<int:chapter_id>/react_to_chapter", login_required(views.react_to_chapter), name="react_to_chapter"),
     path('<int:story_id>/chapter/<int:chapter_number>/edit', login_required(views.ChapterEditView.as_view()), name="edit_chapter"),
     path('<int:chapter_id>/delete', login_required(views.chapter_delete), name="chapter_delete"),
 ]

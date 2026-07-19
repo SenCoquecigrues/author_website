@@ -157,7 +157,7 @@
 
     async function reactAs(event, reactionId) {
         try {
-            const response = await fetch("{% url 'library:react_to_story' chapter.id %}", {
+            const response = await fetch("{% url 'library:react_to_chapter' chapter.id %}", {
             method: "POST",
             headers: {
                 "X-CSRFToken": "{{ csrf_token }}",

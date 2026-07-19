@@ -216,13 +216,13 @@ def clap_story(request, story_id):
     except Exception:
         return JsonResponse({"code": 500})
 
-def react_to_story(request, chapter_id):
+def react_to_chapter(request, chapter_id):
     try:
         chapter = Chapter.objects.get(id=chapter_id)        
         request_json = json.loads(request.body)
         reaction_id = request_json["reaction_id"]
 
-        if type(reaction_id) != int:
+        if type(reaction_id) is not int:
             raise TypeError
 
         reaction = Reaction.objects.get(id=reaction_id)
