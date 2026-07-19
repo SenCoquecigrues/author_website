@@ -145,6 +145,7 @@ class Comment(models.Model):
 
 class Reaction(models.Model):
     text_emoji = models.CharField(max_length=20)
+    text_legend = models.CharField(max_length=20)
 
     def __str__(self):
         return self.text_emoji
@@ -156,18 +157,13 @@ class ReactionsRelationships(models.Model):
         on_delete=models.CASCADE,
         related_name="member_reacted_as"
     )
-    story = models.ForeignKey(
-        Story,
+    chapter = models.ForeignKey(
+        Chapter,
         on_delete=models.CASCADE,
-        related_name="story_reacted_as"
+        related_name="chapter_reacted_as"
     )
     reaction = models.ForeignKey(
         Reaction,
         on_delete=models.CASCADE,
         related_name="reacted_as"
     )
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['story', 'member'], name="members_can_only_react_one_way")
-        ]

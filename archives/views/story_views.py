@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from django.contrib import messages
 from django.http import HttpResponseNotAllowed, HttpResponse, JsonResponse
@@ -6,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 
 from archives.forms import Author, ChapterForm, StoryForm, StoryFilterForm
-from archives.models import Chapter, Story, PairingType
+from archives.models import Chapter, Story, PairingType, Reaction, ReactionsRelationships
 from archives.utils.story_exporter import StoryDigester
 
 from utils import stories_handler
@@ -57,6 +58,12 @@ class StoryReadView(generic.View):
 
         story = get_object_or_404(Story, pk=story_id)
         chapter = get_object_or_404(Chapter, story=story, number=chapter_number)
+        reactions = Reaction.objects.all()
+        reaction_relationships = ReactionsRelationships.objects.filter(
+            member=self.request.user).filter(
+            chapter=chapter
+        )
+        picked_reactions_ids = [x.reaction.id for x in reaction_relationships]
 
         if request.user.is_authenticated is False and story.visibility != 'Everyone':
             return redirect('voiture_noire:index')
@@ -68,7 +75,9 @@ class StoryReadView(generic.View):
                 self.template_name,
                 {
                     "story": story,
-                    "chapter": chapter
+                    "chapter": chapter,
+                    "reactions": reactions,
+                    "picked_reactions_ids": picked_reactions_ids
                 }
             )
 
@@ -189,8 +198,6 @@ class StoryEditView(generic.View):
             )
         return redirect('voiture_noire:index')
 
-
-##### DELETING
 def story_delete(request, story_id):
     story = get_object_or_404(Story, pk=story_id)
 
@@ -200,6 +207,43 @@ def story_delete(request, story_id):
     else:
         raise HttpResponseNotAllowed("Vous n'êtes pas l'auteur de cette histoire !")
     
+def clap_story(request, story_id):
+    try:
+        story = Story.objects.get(id=story_id)
+        story.clap = story.clap+1
+        story.save()
+        return JsonResponse({"code": 200})
+    except Exception:
+        return JsonResponse({"code": 500})
+
+def react_to_story(request, chapter_id):
+    try:
+        chapter = Chapter.objects.get(id=chapter_id)        
+        request_json = json.loads(request.body)
+        reaction_id = request_json["reaction_id"]
+
+        if type(reaction_id) != int:
+            raise TypeError
+
+        reaction = Reaction.objects.get(id=reaction_id)
+        existing_reaction_for_chapter = ReactionsRelationships.objects.filter(
+            member=request.user).filter(
+            reaction=reaction).filter(
+            chapter=chapter).first()
+        if existing_reaction_for_chapter:
+            existing_reaction_for_chapter.delete()
+        else:
+            ReactionsRelationships.objects.create(
+                member=request.user,
+                reaction=reaction,
+                chapter=chapter
+            )
+
+        return JsonResponse({"code": 200})
+    except TypeError:
+        return JsonResponse({"code": 500, "error": "Wrong data type"})
+    except Exception:
+        return JsonResponse({"code": 500, "error": Exception})
 
 ################ UTILS
 def download_html(request, story_id):
@@ -213,11 +257,3 @@ def download_html(request, story_id):
 
     return response
 
-def clap(request, story_id):
-    try:
-        story = Story.objects.get(id=story_id)
-        story.clap=story.clap+1
-        story.save()
-        return JsonResponse({"code": 200})
-    except Exception:
-        return JsonResponse({"code": 500})

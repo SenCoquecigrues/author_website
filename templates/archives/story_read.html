@@ -78,41 +78,101 @@
         {% endautoescape %}
     </section>
 
-    {% if story.has_multiple_chapters %}
-        <section class="story-footer">
-            {% if chapter.number > 1 %}
+        <footer>
+            <section class="story-reactions">
+                <ul class="reaction-block">
+                {% for reaction in reactions %}
+                    <li>
+                        <button
+                            aria-label="{{ reaction.text_legend }}"
+                            {% if reaction.id in picked_reactions_ids %}
+                                class="reaction-selected"
+                            {% endif %}
+                            onclick="reactAs(event, {{ reaction.id }})"
+                        >
+                            {{ reaction.text_emoji }}
+                        </button>
+                    </li>
+                {% endfor %}
+                </ul>
+                    <button type="submit" id="clap-story-btn" onclick="clapStory()">
+                        <img src="/static/images/hands-clapping.svg" alt="Applaudir l'histoire">
+                    </button>
+            </section>
+
+            <!-- Multi-chaptered story logic -->
+            {% if story.has_multiple_chapters %}
+            <nav aria-label="naviguer-chapitres" class="chapter-nav-elements">
+                {% if chapter.number != 1 %}
+                    <a
+                        class="vn-archives-btn-or-a chapter-nav-link" 
+                        href="{% url 'library:read_story' story.id 1 %}"
+                    >
+                        Premier chapitre
+                    </a>
+                    <a
+                        class="vn-archives-btn-or-a chapter-nav-link" 
+                        href="{% url 'library:read_story' story.id chapter.number|add:-1 %}"
+                    >
+                        Précédent
+                    </a>
+                {% endif %}
+
+                {% if chapter.number != story.number_of_chapter %}
                 <a
                     class="vn-archives-btn-or-a chapter-nav-link" 
-                    href="{% url 'library:read_story' story.id 1 %}"
+                    href="{% url 'library:read_story' story.id chapter.number|add:1 %}"
                 >
-                    Premier chapitre
+                    Suivant
                 </a>
                 <a
                     class="vn-archives-btn-or-a chapter-nav-link" 
-                    href="{% url 'library:read_story' story.id chapter.number|add:-1 %}"
+                    href="{% url 'library:read_story' story.id story.number_of_chapter %}"
                 >
-                    Précédent
+                    Dernier chapitre
                 </a>
+                {% endif %}
+            </nav>
             {% endif %}
-
-            {% if chapter.number != story.number_of_chapter %}
-            <a
-                class="vn-archives-btn-or-a chapter-nav-link" 
-                href="{% url 'library:read_story' story.id chapter.number|add:1 %}"
-            >
-                Suivant
-            </a>
-            <a
-                class="vn-archives-btn-or-a chapter-nav-link" 
-                href="{% url 'library:read_story' story.id story.number_of_chapter %}"
-            >
-                Dernier chapitre
-            </a>
-
-            {% endif %}
-        </section>
-    {% endif %}
+            </footer>
 
 </section>
 
+<script>
+    async function clapStory() {
+        try {
+            const response = await fetch("{% url 'library:clap' story.id %}", {
+            method: "GET",
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function reactAs(event, reactionId) {
+        try {
+            const response = await fetch("{% url 'library:react_to_story' chapter.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+            body: JSON.stringify({ "reaction_id": reactionId }),
+            });
+
+            if (response.status === 200) {
+                const btn = event.target;
+
+                if (btn.classList.contains("reaction-selected")) {
+                    btn.classList.remove("reaction-selected")
+                } else {
+                    btn.classList.add("reaction-selected")
+                }
+            } else {
+                console.error("Error " + response.status + " while attempting to react to story.")
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+</script>
 {% endblock %}

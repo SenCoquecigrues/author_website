@@ -97,12 +97,12 @@ Check that all migrations are applied.
 2. If involving models: run migrations
 
 
-## TO-DO
-### Current task: improve Voiture Noire & Accessibility
-- [STORIES] User Reaction (ongoing: back done)
-- [WRITER] Add buttons to filter rants
+## TO-DO (v. 0.7)
+### Current task: archives improvements
+- [STORIES] Add HTML export to stories
 
 ### Must-have
+- [WRITER] Add buttons to filter rants
 - [ARCHIVES] Post : preview fic
 - [STORIES] Post comment (ongoing: lacking view + checks)
 - [STORIES] Delete chapter
@@ -110,7 +110,7 @@ Check that all migrations are applied.
 - [STORIES] Add PDF thanks to [this library](https://www.geeksforgeeks.org/creating-ebooks-with-borb-in-python/).
 available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). Instruction book can be found
 [here](https://github.com/jorisschellekens/borb-examples/tree/master/chapter_001).
-- [STORIES] Add HTML
+
 - [STORIES] Add PDF support for multiple chapters
 - [STORIES] Add HTML support for multiple chapters
 
@@ -125,6 +125,13 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [PINE] (Computer) Commissions : final page
 - [PINE] (Mobile) Commissions : final page
 - [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
+
+### Done
+- [STORIES] User Clapping (calling back)
+- [STORIES] User Clapping (user see interaction)
+- [STORIES] User Reactions: functional back calls
+- [STORIES] User Reactions: selected reactions show up on loading
+- [STORIES] User Reactions: selected reactions show up on change
 
 
 ## Useful commands

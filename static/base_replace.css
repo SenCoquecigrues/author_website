@@ -1,0 +1,112 @@
+@import "./normalize.css";
+@import "./banner.css";
+
+@font-face {
+  font-family: "IM Fell";
+  src: url(fonts/IMFellEnglishSC-Regular.woff2);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Libre Baskerville"; /* set name */
+  src: url(fonts/LibreBaskerville-VariableFont_wght.woff2);
+  font-display: swap;
+}
+
+body {
+    --very-dark-purple: #35182b;
+    --dark-purple: #4c223d;
+    --dull-purple: #703A4B;
+
+    font-family: "Libre Baskerville", "PT Serif", serif;
+    line-height: 2em;
+    background-color: var(--dark-purple);
+    color: #e3d5b5;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+main {
+    margin-top: 3em;
+}
+
+h1 {
+    font-family: "IM Fell", "Libre Baskerville", serif;
+    text-align: center;
+    font-size: 3em;
+    text-transform: uppercase;
+    background: radial-gradient(circle, #f5deb3 0%, #e6be8a 50%, #e1a95f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 500ms linear;
+    margin-bottom: 1em;
+    line-height: normal;
+    font-weight: 400;
+}
+
+.h2-writer {
+    font-family: "IM Fell", "Libre Baskerville", serif;
+    text-align: center;
+    background: radial-gradient(circle, #f5deb3 0%, #e6be8a 50%, #e6be8a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: 500ms linear;
+    font-size: 1.8em;
+}
+
+h3 {
+    font-family: "IM Fell", "Libre Baskerville", serif;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    color: #e6be8a;
+}
+
+strong,
+a {
+    color: #e6be8a;
+}
+
+hr {
+    margin-top: 8vh;
+    margin-bottom: 8vh;
+    height: 33px;
+    border: 0;
+    background-image: url("./images/sep-56311.svg");
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    background-position: center;
+}
+
+a:hover {
+    color: #e5aa70;
+}
+
+@media screen and (max-width: 700px) {
+    main {
+        margin-left: 1.5em;
+        margin-right: 1.5em;
+    }
+}
+
+@media screen and (min-width: 701px) and (max-width: 1000px) {
+    main {
+        margin-left: 6em;
+        margin-right: 6em;
+    }
+}
+
+@media screen and (min-width: 1001px) and (max-width: 1300px){
+    main {
+        margin-left: 10em;
+        margin-right: 10em;
+    }
+}
+
+@media screen and (min-width: 1301px){
+    main {
+        margin-left: 20vw;
+        margin-right: 20vw;
+    }
+}
