@@ -1,14 +1,12 @@
 import datetime
-import json
 
 from django.contrib import messages
-from django.http import HttpResponseNotAllowed, HttpResponse, JsonResponse
+from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 
 from archives.forms import Author, ChapterForm, StoryForm, StoryFilterForm
 from archives.models import Chapter, Story, PairingType, Reaction, ReactionsRelationships
-from archives.utils.story_exporter import StoryDigester
 
 from utils import stories_handler
 
@@ -51,7 +49,7 @@ class Index(generic.ListView):
 
 
 class StoryReadView(generic.View):
-    template_name = 'archives/story_read.html'
+    template_name = 'archives/story_get.html'
 
     def get(self, request, story_id, chapter_number, *args, **kwargs):
         request_user = self.request.user
@@ -215,45 +213,4 @@ def clap_story(request, story_id):
         return JsonResponse({"code": 200})
     except Exception:
         return JsonResponse({"code": 500})
-
-def react_to_chapter(request, chapter_id):
-    try:
-        chapter = Chapter.objects.get(id=chapter_id)        
-        request_json = json.loads(request.body)
-        reaction_id = request_json["reaction_id"]
-
-        if type(reaction_id) is not int:
-            raise TypeError
-
-        reaction = Reaction.objects.get(id=reaction_id)
-        existing_reaction_for_chapter = ReactionsRelationships.objects.filter(
-            member=request.user).filter(
-            reaction=reaction).filter(
-            chapter=chapter).first()
-        if existing_reaction_for_chapter:
-            existing_reaction_for_chapter.delete()
-        else:
-            ReactionsRelationships.objects.create(
-                member=request.user,
-                reaction=reaction,
-                chapter=chapter
-            )
-
-        return JsonResponse({"code": 200})
-    except TypeError:
-        return JsonResponse({"code": 500, "error": "Wrong data type"})
-    except Exception:
-        return JsonResponse({"code": 500, "error": Exception})
-
-################ UTILS
-def download_html(request, story_id):
-    digester = StoryDigester(story_id)
-    title = digester.return_title()
-    response = HttpResponse(
-        digester.html_story(),
-        content_type='text/html',
-        headers={'Content-Disposition': f'attachment; filename="{title}.html"'},
-    )
-
-    return response
 

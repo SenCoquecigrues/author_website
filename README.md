@@ -98,16 +98,14 @@ Check that all migrations are applied.
 
 
 ## TO-DO (v. 0.7)
-### Road to 0.71: add support for exports
-- [STORIES] Add front buttons for exports
-- [STORIES] Add HTML export to stories
-- [STORIES] Add PDF support for multiple chapters
-- [STORIES] Add HTML support for multiple chapters
-- [STORIES] Better story_card element display flexibility
+### Road to 0.71: add support for HTML export
+- [STORIES] Tests exports
 
 ### Must-have
 - [WRITER] Add buttons to filter rants
 - [ARCHIVES] Post : preview fic
+- [STORIES] Better story_card element display flexibility
+- [STORIES] Add PDF support for multiple chapters
 - [STORIES] Post comment (ongoing: lacking view + checks)
 - [STORIES] Delete chapter
 - [STORIES] User Comment
@@ -126,6 +124,12 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [PINE] (Computer) Commissions : final page
 - [PINE] (Mobile) Commissions : final page
 - [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
+
+### Version 0.71 : adding HTML fic exports
+- [STORIES] Add HTML support for oneshots
+- [STORIES] Add HTML support for multiple chapters
+- [STORIES] Add table of content for multi-chapters things
+- [STORIES] Add AND format front buttons for exports
 
 ### Version 0.7 : adding reaction and clapping
 - [STORIES] User Clapping (calling back)

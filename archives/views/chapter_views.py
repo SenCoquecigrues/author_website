@@ -1,10 +1,12 @@
+import json
+
 from django.contrib import messages
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 
 from archives.forms import ChapterForm
-from archives.models import Chapter, Story
+from archives.models import Chapter, Story, Reaction, ReactionsRelationships
 
 
 class ChapterPostView(generic.View):

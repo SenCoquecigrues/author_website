@@ -1,9 +1,7 @@
 from datetime import date, timedelta
 
 
-from django.db.models import Q
-from django.test import Client, TestCase
-from django.urls import reverse
+from django.test import TestCase
 from accounts.models import Member
 from archives.models import Author, PairingType, Story
 

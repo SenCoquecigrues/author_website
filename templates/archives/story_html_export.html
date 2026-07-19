@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ story.story_title }}, par {{ story.author }}</title>
+    </head>
+
+    <body>
+        <p class="link-to-origin">
+                    Ce texte peut aussi être lu sur
+                    <a href="{{ full_story_url }}">son site d'origine</a>.
+        </p>
+
+        <main class="main-story-body" >
+            <header>
+                <section id="title-block">
+                    <h1>{{ story.story_title }}</h1>
+                    <p>par {{ story.author }}</p>
+                </section>
+
+                {% if story.story_author_note %}
+                <h2 class="admin-h2">Préface</h2>
+                <aside>{{ story.story_author_note | safe }}</aside>
+                {% endif %}
+            </header>
+
+            {% if story.chapters.all.count %}
+                <nav id="table-of-content">
+                    <h2 class="admin-h2">Table des matières</p>
+                    <ul>
+                        {% for chapter in story.chapters.all %}
+                            <li>
+                                <a href="#start-chapter-{{ chapter.number }}">
+                                    Chapitre {{chapter.number}} {% if chapter.chapter_title %} : {{ chapter.chapter_title}} {% endif %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    <ul>
+                </nav> 
+            {% endif %}
+            
+            {% for chapter in story.chapters.all %}
+            <section>
+                <h2 id="start-chapter-{{ chapter.number }}">
+                    Chapitre {{ chapter.number }} {% if chapter.chapter_title %} : {{ chapter.chapter_title}} {% endif %}
+                </h2>
+
+                {{ chapter.content | safe }}
+            </section>
+            {% endfor %}
+
+        </main>
+    </body>
+
+    <style>
+        body {
+            background-color: #fffffa;
+            line-height: 2em
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 0px;
+            line-height: normal;
+        }
+
+        h2 {
+            font-size: 2em;
+            text-align: center;
+            margin-top: 4em;
+            margin-bottom: 2em;
+
+            &.admin-h2 {
+                font-size: 1.2em;
+                margin-top: 1.2em;
+                margin-bottom: 1em;
+                line-height: 1em;
+            }
+        }
+
+        aside p {
+            font-size: 0.9em;
+            line-height: normal;
+        }
+
+
+        .link-to-origin {
+            font-size: 0.9em;
+            text-align: right;
+            margin-bottom: 2em;
+            margin-right: 1vw;
+            font-style: italic;
+        }
+
+        #table-of-content {
+            ul {
+                list-style: none;
+                text-align: left;
+            }
+        }
+        .main-story-body  {
+            margin: 10vw;
+            margin-top: 0.5em;
+            
+            header {
+                border: black thin solid;
+                padding: 2em;
+                margin: 1em;
+                margin-bottom: 4em;
+
+                #title-block {
+                    text-align: center;
+
+                    p {
+                        font-size: 1.8em;
+                        margin-top: 0px;
+                    }
+                }
+            }
+        }
+
+        .ql-align-right {
+            text-align: right;
+        }
+
+        .ql-align-left {
+            text-align: left;
+        }
+
+        .ql-align-center {
+            text-align: center;
+        }
+
+        .ql-align-justify {
+            text-align: justify;
+        }
+
+        @media all and (max-width: 700px) {
+            .main-story-body {
+                margin: 1vw;
+                margin-top: 0px;
+            }
+        }
+
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #F1F5F9;
+                background: #1E1E1E;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            body {
+                color: #1E1E1E;
+                background: #FFFFF5;
+            }
+        }
+
+    </style>
+</html>

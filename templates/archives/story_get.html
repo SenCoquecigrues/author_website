@@ -22,16 +22,24 @@
 <hr>
 
 <section class="section-story">
-    {% if user == story.author.member %}
-        <div class="story-header-btns">
+    <div class="story-header-btns">
+        {% if user == story.author.member %}
             <a
-            class="vn-archives-btn-or-a chapter-nav-link"
-            href="{% url 'library:edit_story' story.id %}"
+                class="vn-archives-btn-or-a chapter-nav-link"
+                href="{% url 'library:edit_story' story.id %}"
             >
                 Éditer
             </a>
-        </div>
-    {% endif %}
+        {% endif %}
+        <a
+            class="vn-archives-btn-or-a chapter-nav-link"
+            href="{% url 'library:export_html' story.id %}"
+        >
+            Export HTML
+        </a>
+    </div>
+
+
     <header class="header-story">
         <h2 class="header-story-title">
                 {{ story.story_title }}
