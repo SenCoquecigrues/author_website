@@ -64,9 +64,14 @@
             {% endif %}
 
             {% if story.author.member == user %}
-                ❖ Applaudissements : {{ story.clap }}  
+                ❖ Applaudissements : {{ story.clap }}
+                ❖
+                {% for chapter in story.chapters.all %}
+                    {% for reac in chapter.chapter_reacted_as.all %}
+                        {{ reac.reaction }}
+                    {% endfor %}
+                {% endfor %}
             {% endif %}
-
         </p>
     </div>
     

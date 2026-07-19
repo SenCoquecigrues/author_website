@@ -99,7 +99,6 @@ Check that all migrations are applied.
 
 ## TO-DO (v. 0.7)
 ### Current task: archives improvements
-- [STORIES] Author can see number of reactions per story
 - [STORIES] Add HTML export to stories
 - [STORIES] Better story_card element display flexibility
 
@@ -135,6 +134,7 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [STORIES] User Reactions: selected reactions show up on loading
 - [STORIES] User Reactions: selected reactions show up on change
 - [STORIES] Author can see number of claps per stories
+- [STORIES] Author can see reactions per story
 
 
 ## Useful commands

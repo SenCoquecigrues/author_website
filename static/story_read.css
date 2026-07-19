@@ -27,6 +27,12 @@
     }
 }
 
+#chapter-current-reactions {
+    display: flex;
+    flex-flow: row;
+    justify-content: end;
+}
+
 .story-chapter-title {
     text-align: center;
     margin-top: 2em;

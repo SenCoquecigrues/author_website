@@ -37,7 +37,6 @@
                 {{ story.story_title }}
         </h2>
         <p class="header-author-name">par {{ story.author }}</p>
-        <!-- <hr> -->
     </header>
 
     {% if story.story_author_note != '' or story.story_author_note != '<p><br></p>' or chapter.chapter_author_note != '' or chapter.chapter_author_note != '<p><br></p>' %}
@@ -63,6 +62,14 @@
         </section>
     {% endif %}
 
+    <section id="chapter-current-reactions">
+        {% if user == story.author.member %}
+            {% for reac in chapter.chapter_reacted_as.all %}
+                {{ reac.reaction }}
+            {% endfor %}
+        {% endif %}
+    </section>                
+
     <section class="story-body">
         {% if story.has_multiple_chapters and chapter.chapter_title == '' or story.has_multiple_chapters and chapter.chapter_title == None %}
             <h3 class="story-chapter-title">Chapitre {{ chapter.number }}</h3>
@@ -71,7 +78,6 @@
         {% elif chapter.chapter_title != '' and chapter.chapter_title != None %}
             <h3 class="story-chapter-title">{{chapter.chapter_title}}</h3>
         {% endif %}
-                
 
         {% autoescape off %}
             {{ chapter.content }}
