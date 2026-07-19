@@ -98,8 +98,11 @@ Check that all migrations are applied.
 
 
 ## TO-DO (v. 0.7)
-### Current task: archives improvements
+### Road to 0.71: add support for exports
+- [STORIES] Add front buttons for exports
 - [STORIES] Add HTML export to stories
+- [STORIES] Add PDF support for multiple chapters
+- [STORIES] Add HTML support for multiple chapters
 - [STORIES] Better story_card element display flexibility
 
 ### Must-have
@@ -111,9 +114,6 @@ Check that all migrations are applied.
 - [STORIES] Add PDF thanks to [this library](https://www.geeksforgeeks.org/creating-ebooks-with-borb-in-python/).
 available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). Instruction book can be found
 [here](https://github.com/jorisschellekens/borb-examples/tree/master/chapter_001).
-
-- [STORIES] Add PDF support for multiple chapters
-- [STORIES] Add HTML support for multiple chapters
 
 ### Nice to have
 - [STORIES] Add settings buttons to stories themselves

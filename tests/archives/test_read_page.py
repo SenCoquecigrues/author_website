@@ -6,7 +6,7 @@ from django.urls import reverse
 from accounts.models import Member
 from archives.models import Author, PairingType, Story
 
-class ArchivesReadPageTestCase(TestCase):
+class ReadPageTestCase(TestCase):
     def setUp(self):
         PairingType.objects.create(pairing_type="oth", label="Autre")
         PairingType.objects.create(pairing_type="het", label="Hétéro")

@@ -8,7 +8,7 @@ from accounts.models import Member
 from archives.models import Author, PairingType, Story
 
 
-class ArchivesIndexTestCase(TestCase):
+class IndexTestCase(TestCase):
     # Note: will await definitive data structure
     # fixtures = ["accounts.json", "archives.json"]
 
@@ -71,7 +71,6 @@ class ArchivesIndexTestCase(TestCase):
             rating="g", visibility="Everyone"
         )
         story5.pairing_type.set(PairingType.objects.filter(label="Aucun"))
-
 
     def test_voiture_noire_index_redirect_properly(self):
         response = self.client.get(reverse("voiture_noire:index"))
