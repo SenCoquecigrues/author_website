@@ -108,3 +108,32 @@ def chapter_delete(request, chapter_id):
         return redirect('voiture_noire:profile')
     else:
         raise HttpResponseNotAllowed("Vous n'êtes pas l'autrice de ce récit !")
+
+def react_to_chapter(request, chapter_id):
+    try:
+        chapter = Chapter.objects.get(id=chapter_id)        
+        request_json = json.loads(request.body)
+        reaction_id = request_json["reaction_id"]
+
+        if type(reaction_id) is not int:
+            raise TypeError
+
+        reaction = Reaction.objects.get(id=reaction_id)
+        existing_reaction_for_chapter = ReactionsRelationships.objects.filter(
+            member=request.user).filter(
+            reaction=reaction).filter(
+            chapter=chapter).first()
+        if existing_reaction_for_chapter:
+            existing_reaction_for_chapter.delete()
+        else:
+            ReactionsRelationships.objects.create(
+                member=request.user,
+                reaction=reaction,
+                chapter=chapter
+            )
+
+        return JsonResponse({"code": 200})
+    except TypeError:
+        return JsonResponse({"code": 500, "error": "Wrong data type"})
+    except Exception:
+        return JsonResponse({"code": 500, "error": Exception})

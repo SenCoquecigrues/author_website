@@ -9,7 +9,7 @@ from accounts.models import Member
 from archives.models import Author, Chapter, PairingType, Reaction, ReactionsRelationships, Story
 
 
-class StoryViewsTestCase(TestCase):
+class FunctionViewsTestCase(TestCase):
     def setUp(self):
         PairingType.objects.create(pairing_type="mm", label="M/M")
         PairingType.objects.create(pairing_type="ff", label="F/F")
