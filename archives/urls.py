@@ -20,6 +20,9 @@ urlpatterns = [
     path('<int:story_id>/chapter/<int:chapter_number>/edit', login_required(views.ChapterEditView.as_view()), name="edit_chapter"),
     path('<int:chapter_id>/delete', login_required(views.chapter_delete), name="chapter_delete"),
     # Exports
+    path("<int:story_id>/epub", views.export_epub, name="export_epub"),
+    path("<int:story_id>/epub_foreword", views.foreword_epub_export, name="epub_foreword"),
+    path("<int:story_id>/epub_chapter", views.export_epub_chapter, name="epub_chapter"),
     path("<int:story_id>/html", views.export_html, name="export_html"),
     path("<int:story_id>/html_for_export", views.story_for_html_export, name="story_for_html_export")
 ]

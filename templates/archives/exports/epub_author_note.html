@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <body>
+        <main class="main-story-body" >
+            <p style="text-align: right;">
+                Ce texte peut aussi être lu sur
+                <a href="{{ full_story_url }}">son site d'origine</a>.
+            </p>
+
+            {% if story.story_author_note %}
+                <main>{{ author_note | safe }}</main>
+            {% endif %}
+        </main>
+    </body>
+</html>

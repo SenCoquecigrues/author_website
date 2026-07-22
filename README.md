@@ -98,12 +98,19 @@ Check that all migrations are applied.
 
 
 ## TO-DO (v. 0.7)
-### Road to 0.71: add support for HTML export
-- [STORIES] Tests exports
+### Road to 0.721: improve error handling when posting story
+- [STORIES] Redirect toward posted story
+- [STORIES] Redirect toward posted chapter
+
 
 ### Must-have
 - [WRITER] Add buttons to filter rants
 - [ARCHIVES] Post : preview fic
+- [STORIES] Ensure automatic ebook folder cleaning up, just in case
+- [STORIES] Tests exports with test text. Try saying that many times very quickly
+- [STORIES] Fix clap button
+- [STORIES] Bigger emojis?
+- [STORIES] Better way for authors to know which reactions were shown for which chapter
 - [STORIES] Better story_card element display flexibility
 - [STORIES] Add PDF support for multiple chapters
 - [STORIES] Post comment (ongoing: lacking view + checks)
@@ -115,8 +122,12 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 
 ### Nice to have
 - [STORIES] Add settings buttons to stories themselves
+- [STORIES] Custom covers
 - [PROMPTS] Search prompts through text
 - [STORIES] Replace ratings as instances by rating as choices? 
+
+### Quickwins
+- [STORIES] Improve story button display on very small screens
 
 ### Last priority
 - [PINE] (Mobile) : Rearrange banner
@@ -125,11 +136,18 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [PINE] (Mobile) Commissions : final page
 - [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
 
+### Version 0.72 : adding Epub fic exports
+- [STORIES] Save epubs
+- [STORIES] Send epubs
+- [STORIES] Upon export error, send a 'sorreh ):' txt.
+- [STORIES] Add AND format front buttons for epub exports
+- [STORIES] Change TOC name. **WARNING**: had to customize the library for that one. We will need to create a library fork.
+
 ### Version 0.71 : adding HTML fic exports
 - [STORIES] Add HTML support for oneshots
 - [STORIES] Add HTML support for multiple chapters
 - [STORIES] Add table of content for multi-chapters things
-- [STORIES] Add AND format front buttons for exports
+- [STORIES] Add AND format front buttons for html exports
 
 ### Version 0.7 : adding reaction and clapping
 - [STORIES] User Clapping (calling back)
