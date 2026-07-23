@@ -31,7 +31,7 @@ class EpubFormatter():
 
     def formatted_chapter_title(chapter, is_oneshot: bool):
         if is_oneshot:
-            return chapter.story.title
+            return chapter.story.story_title
 
         title = f"Chapitre {chapter.number}"
         if chapter.chapter_title:

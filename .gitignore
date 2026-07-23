@@ -56,3 +56,6 @@ pytest.ini
 # ENV
 .env
 /utils/json/author_profile.json
+
+# LOCAL
+generated_ebooks/*
