@@ -213,7 +213,7 @@ class StoryEditView(generic.View):
                 messages.ERROR,
                 "Une erreur est survenue durant l'édition de votre récit. Désolée !"
             )
-            chapters = Chapter.objects.filter(story=story)
+            chapters = Chapter.objects.filter(story=story_initial_instance)
 
             return render(
                 request,
@@ -221,7 +221,7 @@ class StoryEditView(generic.View):
                 {
                     "story_form": story_form,
                     "chapters": chapters,
-                    "story_id": story.id
+                    "story_id": story_id
                 }
             )
 

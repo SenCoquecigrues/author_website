@@ -60,7 +60,7 @@ class ChapterPostView(generic.View):
                 self.template_name,
                 {
                     "chapter_form": self.chapter_form,
-                    "story": story
+                    "story": root_story
                 }
             )
 
