@@ -87,7 +87,7 @@ def export_epub(request, story_id):
     except Exception as e:
         logging.error(f"Error while attempting to export {file_title} : {e}")
         return HttpResponse(
-            "L'export a échoué car Sen est une misérable. Contactez-la. Regardez-la droit dans les yeux.",
+            f"L'export a échoué car Sen est une misérable. Contactez-la. Regardez-la droit dans les yeux. (erreur : {e})",
             content_type='text/plain',
             headers={
                 'Content-Disposition': 'attachment; filename="export_failed.txt"'
