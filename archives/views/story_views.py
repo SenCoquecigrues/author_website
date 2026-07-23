@@ -126,14 +126,27 @@ class StoryPublishView(generic.View):
             chapter_form.story = new_story
             chapter_form.number = 1
             chapter_form.save()
+            return redirect(
+                'archives:read_story',
+                story_id=new_story.id,
+                chapter_number=1
+            )
 
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                "Une erreur est survenue durant l'enregistrement de votre story."
+                "Problème dans les champs que vous avez rempli."
             )
-        return redirect('voiture_noire:index')
+            return render(
+                request,
+                self.template_name,
+                {
+                    "chapter_form": chapter_form,
+                    "story_form": story_form,
+                }
+            )
+
 
 
 ##### EDITING        
@@ -188,13 +201,30 @@ class StoryEditView(generic.View):
             pairing_types = PairingType.objects.filter(id__in=pairing_types)
             story_initial_instance.pairing_type.set(pairing_types)
             story_initial_instance.save()
+            return redirect(
+                'archives:read_story',
+                story_id=story_id,
+                chapter_number=1
+            )
+
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
                 "Une erreur est survenue durant l'édition de votre récit. Désolée !"
             )
-        return redirect('voiture_noire:index')
+            chapters = Chapter.objects.filter(story=story)
+
+            return render(
+                request,
+                self.template_name,
+                {
+                    "story_form": story_form,
+                    "chapters": chapters,
+                    "story_id": story.id
+                }
+            )
+
 
 def story_delete(request, story_id):
     story = get_object_or_404(Story, pk=story_id)

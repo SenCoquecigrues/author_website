@@ -98,23 +98,22 @@ Check that all migrations are applied.
 
 
 ## TO-DO (v. 0.7)
-### Road to 0.721: improve error handling when posting story
-- [STORIES] Redirect toward posted story
-- [STORIES] Redirect toward posted chapter
-
+### Road to 0.722: various story fixes
+- [STORIES] Update test for editing and publishing chapters
+- [STORIES] Delete chapter from main page
+- [STORIES] Add detailled error return when a form is invalid (chapter, story)
+- [STORIES] Tests exports with test text. Try saying that many times very quickly
+- [STORIES] Bigger emojis?
+- [STORIES] Better story_card element display flexibility
+- [STORIES] Better way for authors to know which reactions were shown for which chapter (perhaps chapter number?)
+- [STORIES] Improve story button display on very small screens
 
 ### Must-have
 - [WRITER] Add buttons to filter rants
 - [ARCHIVES] Post : preview fic
 - [STORIES] Ensure automatic ebook folder cleaning up, just in case
-- [STORIES] Tests exports with test text. Try saying that many times very quickly
 - [STORIES] Fix clap button
-- [STORIES] Bigger emojis?
-- [STORIES] Better way for authors to know which reactions were shown for which chapter
-- [STORIES] Better story_card element display flexibility
-- [STORIES] Add PDF support for multiple chapters
 - [STORIES] Post comment (ongoing: lacking view + checks)
-- [STORIES] Delete chapter
 - [STORIES] User Comment
 - [STORIES] Add PDF thanks to [this library](https://www.geeksforgeeks.org/creating-ebooks-with-borb-in-python/).
 available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). Instruction book can be found
@@ -125,9 +124,6 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [STORIES] Custom covers
 - [PROMPTS] Search prompts through text
 - [STORIES] Replace ratings as instances by rating as choices? 
-
-### Quickwins
-- [STORIES] Improve story button display on very small screens
 
 ### Last priority
 - [PINE] (Mobile) : Rearrange banner
@@ -158,6 +154,9 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [STORIES] Author can see number of claps per stories
 - [STORIES] Author can see reactions per story
 
+### Version 0.721: make posting more convenient (part 1)
+- [STORIES] Redirect toward posted story
+- [STORIES] Redirect toward posted chapter
 
 ## Useful commands
 To use Ruff, our linter/formatter:

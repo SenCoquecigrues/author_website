@@ -44,14 +44,25 @@ class ChapterPostView(generic.View):
             chapter_form.story = root_story
             chapter_form.number = chapter_nb
             chapter_form.save()
-
+            return redirect(
+                'archives:read_story',
+                story_id=story_id,
+                chapter_number=chapter_form.number
+            )
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
-                "Une erreur est survenue durant l'enregistrement de votre récit."
+                "Votre formulaire est invalide."
             )
-        return redirect('voiture_noire:index')
+            return render(
+                request,
+                self.template_name,
+                {
+                    "chapter_form": self.chapter_form,
+                    "story": story
+                }
+            )
 
 
 class ChapterEditView(generic.View):
@@ -93,6 +104,11 @@ class ChapterEditView(generic.View):
             chapter_initial_instance.content = chapter_form.content
             chapter_initial_instance.publishing_date = chapter_form.publishing_date
             chapter_initial_instance.save()
+            return redirect(
+                'archives:read_story',
+                story_id=story_id,
+                chapter_number=chapter_number
+            )
 
         else:
             messages.add_message(
@@ -100,7 +116,15 @@ class ChapterEditView(generic.View):
                 messages.ERROR,
                 "Une erreur est survenue durant l'enregistrement de votre récit."
             )
-        return redirect('voiture_noire:index')
+            return render(
+                request,
+                self.template_name,
+                {
+                    "chapter_form": chapter_form,
+                    "story": root_story
+                }
+            )
+
 
 def chapter_delete(request, chapter_id):
     chapter = get_object_or_404(Chapter, pk=chapter_id)
