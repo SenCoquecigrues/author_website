@@ -3,8 +3,9 @@
 1. [Using the app locally](#local-use)
    - [Installing the app](#installing)
    - [Launching the app](#launching)
+   - [Linting and testing](#linting-and-testing)
    - [Good practices](#good-practices)
-2. [Setting the app in o2switch (our heberger)](#setting-the-app-in-o2switch)
+2. [Setting up the app in o2switch (our heberger)](#setting-the-app-in-o2switch)
 3. [TO-DO](#to-do)
    - [Must-have](#must-have)
    - [Nice to have](#nice-to-have)
@@ -37,10 +38,6 @@ pip install -r requirements.txt
 Then, run:
 ``` bash
 # Create migrations, i.e. ORM-generated files.
-# pay attention that the folder migrations should exists inside each app folder
-# its being ignored by git (see .gitignore file)
-# can cause issues like: 
-# 'CommandError: Unable to serialize database: no such table: voiture_noire_discordprofile'
 python manage.py makemigrations
 python manage.py migrate
 
@@ -65,6 +62,28 @@ Boom.
 
 The app should be launched from `http://127.0.0.1:8000/`; you can go to 
 `http://127.0.0.1:8000/admin/` for admin options.
+
+### Linting and testing
+To use Ruff, our linter/formatter:
+```bash
+ruff check   # Lint all files in the current directory.
+ruff format  # Format all files in the current directory.
+```
+
+To use Django's integrated Unittest implementation:
+```bash
+python manage.py test tests # all tests
+python manage.py test tests.accounts.test_birthdays # a specific TestCase
+python manage.py test tests.archives.ArchivesIndexTestCase # a specific TestCase (bis)
+python manage.py test tests.archives.ArchivesIndexTestCase.test_cannot_access_private_story # a specific test
+```
+
+To use coverage so as to get a report about test coverage:
+```bash
+python -m coverage run manage.py test
+# Then, to get a detailled report:
+python -m coverage html
+```
 
 ### Good practices
 **We try to preface commits with "feat", "fix", or "chore"** for clarity's sake. Do let me know 
@@ -139,6 +158,10 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [STORIES] Add AND format front buttons for epub exports
 - [STORIES] Change TOC name. **WARNING**: had to customize the library for that one. We will need to create a library fork.
 
+### Version 0.721: make posting more convenient (part 1)
+- [STORIES] Redirect toward posted story
+- [STORIES] Redirect toward posted chapter
+
 ### Version 0.71 : adding HTML fic exports
 - [STORIES] Add HTML support for oneshots
 - [STORIES] Add HTML support for multiple chapters
@@ -154,21 +177,8 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [STORIES] Author can see number of claps per stories
 - [STORIES] Author can see reactions per story
 
-### Version 0.721: make posting more convenient (part 1)
-- [STORIES] Redirect toward posted story
-- [STORIES] Redirect toward posted chapter
 
 ## Useful commands
-To use Ruff, our linter/formatter:
-```python
-ruff check   # Lint all files in the current directory.
-ruff format  # Format all files in the current directory.
-```
-
-To run the tests specific to one particular TestCase:
-`python manage.py test tests.accounts.test_birthdays`
-`python manage.py test tests.archives.ArchivesIndexTestCase`
-
 (In prod) To run statics and clear them, in case the files got corrupted (don't forget to restart afterwards!):
 `python manage.py collectstatic --clear`
 
@@ -179,17 +189,4 @@ To export the db, app by app, into a json format suitable for fixture:
 ## Code credits
 [Rich text editor](https://codepen.io/BibekOli/pen/abRgbVW)
 
-
-## Random notes
-[CONVERT HTML TO PDF](https://doc.courtbouillon.org/weasyprint/stable/)
-
-[CONVERT HTML TO PDF - PYTHON](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#python-library) => note que y a un argument pour gérer les pages !!
-
-[pdf WITH A PAGE-AT RULE](https://developer.mozilla.org/en-US/docs/Web/CSS/@page)
-
-[BIBLIOTHÈQUE POUR RACCOURCIS](https://www.npmjs.com/package/hotkeys-js)
-
 [PLAY A SOUND WHEN KEY IS PRESSED](https://stackoverflow.com/questions/12578379/play-a-sound-when-a-key-is-pressed)
-
-[INSTANCE OF RICH TEXT EDITOR](https://codingtorque.com/rich-text-editor-using-javascript/)
-

@@ -34,7 +34,8 @@ wheels/
 # Unit test / coverage reports 
 htmlcov/
 .tox/ 
-.coverage 
+.coverage
+.coveragerc
 .coverage.* 
 .cache 
 .pytest_cache/ 
