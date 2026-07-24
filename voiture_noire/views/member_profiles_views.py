@@ -1,7 +1,8 @@
 import asyncio
 
 from django.contrib import messages
-from django.http import JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.views import generic, View
 
@@ -119,20 +120,30 @@ def member_profile(request, member_id):
     template_name = 'voiture_noire/member_profile.html'
 
     if request.user.discord_id == "":
-        raise Exception("Must be a discord member")
+        raise PermissionDenied("Must be a discord member")
 
-    member = Member.objects.get(id=member_id)
-
-    return render(request, template_name, {"person": member})
+    try:
+        member = Member.objects.get(id=member_id)
+        return render(request, template_name, {"person": member})
+    except Exception:
+        raise Http404("Member does not exist.")
 
 def brand_as_criminal(request, author_id):
     author = Author.objects.filter(member=request.user).first()
 
     if author and request.user == author.member :
         author.criminal = not author.criminal
-        author.save()
 
-    return redirect('voiture_noire:profile')
+        try:
+            author.save()
+        except Exception as e:
+            return JsonResponse(
+                {"success": False, "error": e}
+            )
+
+        return JsonResponse({"success": True})
+    else:
+        raise PermissionDenied
 
 """
     Test view to get Trackbear projects for a given user.
