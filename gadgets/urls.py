@@ -6,7 +6,5 @@ app_name = 'gadgets'
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("yaoi-generator", views.yaoi_generator, name="yaoi_generator"),
     path("ecritoire", views.ecritoire, name="ecritoire")
-    # path('', views.Index.as_view(), name='index'),
 ]

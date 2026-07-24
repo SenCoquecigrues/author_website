@@ -10,9 +10,10 @@
    - [Must-have](#must-have)
    - [Nice to have](#nice-to-have)
    - [Last priority](#last-priority)
-4. [Useful commands](#useful-commands)
-5. [Credits](#credits)
-6. [Random notes](#random-notes)
+4. [Version history](#version-history)
+5. [Useful commands](#useful-commands)
+6. [Credits](#credits)
+7. [Random notes](#random-notes)
 
 
 ## LOCAL USE
@@ -116,8 +117,8 @@ Check that all migrations are applied.
 2. If involving models: run migrations
 
 
-## TO-DO (v. 0.7)
-### Road to 0.722: various story fixes
+## TO-DO (v. 0.722)
+### Road to 0.723: various fixes
 - [STORIES] Update test for editing and publishing chapters
 - [STORIES] Delete chapter from main page
 - [STORIES] Add detailled error return when a form is invalid (chapter, story)
@@ -143,6 +144,7 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [STORIES] Custom covers
 - [PROMPTS] Search prompts through text
 - [STORIES] Replace ratings as instances by rating as choices? 
+- [GADGETS] Do something with the yaoi_generator
 
 ### Last priority
 - [PINE] (Mobile) : Rearrange banner
@@ -151,16 +153,23 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [PINE] (Mobile) Commissions : final page
 - [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
 
+## Version history
+### 0.722: improve test cover
+- [QUALITY] Add Coverage
+- [QUALITY] Configure Coverage
+- [QUALITY] Add Writer tests
+- [QUALITY] Add Gadget tests
+
+### Version 0.721: make posting more convenient (part 1)
+- [STORIES] Redirect toward posted story
+- [STORIES] Redirect toward posted chapter
+
 ### Version 0.72 : adding Epub fic exports
 - [STORIES] Save epubs
 - [STORIES] Send epubs
 - [STORIES] Upon export error, send a 'sorreh ):' txt.
 - [STORIES] Add AND format front buttons for epub exports
 - [STORIES] Change TOC name. **WARNING**: had to customize the library for that one. We will need to create a library fork.
-
-### Version 0.721: make posting more convenient (part 1)
-- [STORIES] Redirect toward posted story
-- [STORIES] Redirect toward posted chapter
 
 ### Version 0.71 : adding HTML fic exports
 - [STORIES] Add HTML support for oneshots

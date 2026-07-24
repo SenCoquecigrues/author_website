@@ -4,7 +4,7 @@ from os import path
 from django.conf import settings
 
 def author_settings(request):
-    if settings.DEBUG:
+    if settings.DEBUG: # pragma: no cover
         environ.Env.read_env(path.join(settings.BASE_DIR, '.env'))
 
     env = environ.Env(
