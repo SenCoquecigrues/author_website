@@ -13,7 +13,7 @@ class ArchivesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'archives'
 
-    def ready(self):
+    def ready(self): # pragma: no cover
         # Per Django doc, this is OK if the method is idempotent
         try:
             from .models import PairingType

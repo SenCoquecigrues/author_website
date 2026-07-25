@@ -118,7 +118,13 @@ Check that all migrations are applied.
 
 
 ## TO-DO (v. 0.722)
-### Road to 0.723: various fixes
+### Road to 0.723
+- [QUALITY] Add Voiture Noire Prompts tests
+
+### Road to 0.73: various fixes
+- [QUALITY] Test_profile_post is NOT done, remember
+- [QUALITY] Commit hook to run tests for modified files only?
+- [QUALITY] Warn if coverage level lowered?
 - [STORIES] Update test for editing and publishing chapters
 - [STORIES] Delete chapter from main page
 - [STORIES] Add detailled error return when a form is invalid (chapter, story)

@@ -16,5 +16,5 @@ class Post(models.Model):
     title = models.CharField(default="", blank=True, max_length=200)
     body = models.TextField(max_length=6000)
     
-    def __str__(self): # pragma: no cover
+    def __str__(self):
         return f"{self.date} : {self.body[:100]}..."

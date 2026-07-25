@@ -29,8 +29,8 @@ class EpubFormatter():
 
         epub.create(epub_path)
 
-    def formatted_chapter_title(chapter, is_oneshot: bool):
-        if is_oneshot:
+    def formatted_chapter_title(chapter, has_multiple_chapters: bool):
+        if not has_multiple_chapters:
             return chapter.story.story_title
 
         title = f"Chapitre {chapter.number}"
@@ -45,8 +45,3 @@ class EpubFormatter():
         content = content.replace('class="ql-align-center"', 'style="text-align: center"')
 
         return content
-
-    # def get_epub_path():
-    #     current_path = Path.cwd()
-    #     depth = 1
-    #     root_folder = cwd.parents[n - depth]

@@ -1,5 +1,7 @@
 from django.db.models import Count, Q
-from django.shortcuts import render, redirect
+from django.core.exceptions import BadRequest
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
 
 
@@ -24,10 +26,15 @@ class PromptView(View):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        criteria = request.POST['sort_value']
+
+        try:
+            criteria = request.POST['sort_value']
+        except:
+            raise BadRequest
+
         match criteria:
             case "prompt_id":
-                prompt_list = Prompt.objects.order_by(criteria, "id")
+                prompt_list = Prompt.objects.order_by("id")
             case "would_create":
                 prompt_list = Prompt.objects.annotate(number_of_would_create=Count('would_create')).order_by("number_of_would_create")
             case "would_receive":
@@ -46,12 +53,14 @@ class PromptView(View):
                     )).order_by('-has_receivers', 'body')
             case _:
                 prompt_list = Prompt.objects.order_by(criteria)
+
+
         return render(request, self.template_name, {
             "form": form,
             "prompt_list": prompt_list
             })
 
-
+# TODO: eventually handle errors during form validation
 def post_prompt(request):
     new_prompt = PromptForm(request.POST)
     if new_prompt.is_valid():
@@ -59,36 +68,26 @@ def post_prompt(request):
         saved_prompt.would_create.add(request.user)
         saved_prompt.would_receive.add(request.user)
         return redirect('voiture_noire:prompts')
-    # Todo: return message for ano
+    else:
+        raise BadRequest
 
 def would_create(request, prompt_id):
-    try:
-        prompt = Prompt.objects.get(id=prompt_id)
-        prompt.would_create.add(request.user)
-    except Exception:
-        return redirect('500')
-    return redirect('voiture_noire:prompts')
+    prompt = get_object_or_404(Prompt, id=prompt_id)
+    prompt.would_create.add(request.user)
+    return JsonResponse({"code": 200})
 
 def would_not_create(request, prompt_id):
-    try:
-        prompt = Prompt.objects.get(id=prompt_id)
-        prompt.would_create.remove(request.user)
-    except Exception:
-        return redirect('500')
-    return redirect('voiture_noire:prompts')
+    prompt = get_object_or_404(Prompt, id=prompt_id)
+    prompt = Prompt.objects.get(id=prompt_id)
+    prompt.would_create.remove(request.user)
+    return JsonResponse({"code": 200})
 
 def would_receive(request, prompt_id):
-    try:
-        prompt = Prompt.objects.get(id=prompt_id)
-        prompt.would_receive.add(request.user)
-    except Exception:
-        return redirect('500')
-    return redirect('voiture_noire:prompts')
+    prompt = get_object_or_404(Prompt, id=prompt_id)
+    prompt.would_receive.add(request.user)
+    return JsonResponse({"code": 200})
 
 def would_not_receive(request, prompt_id):
-    try:
-        prompt = Prompt.objects.get(id=prompt_id)
-        prompt.would_receive.remove(request.user)
-    except Exception:
-        return redirect('500')
-    return redirect('voiture_noire:prompts')
+    prompt = get_object_or_404(Prompt, id=prompt_id)
+    prompt.would_receive.remove(request.user)
+    return JsonResponse({"code": 200})
