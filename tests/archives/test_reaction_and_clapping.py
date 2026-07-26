@@ -9,7 +9,12 @@ from accounts.models import Member
 from archives.models import Author, Chapter, PairingType, Reaction, ReactionsRelationships, Story
 
 
-class FunctionViewsTestCase(TestCase):
+class ReactionAndClappingTestCase(TestCase):
+    """
+        "React" include
+        - Using Reaction toward chapters
+        - Using Clap toward stories 
+    """
     def setUp(self):
         PairingType.objects.create(pairing_type="mm", label="M/M")
         PairingType.objects.create(pairing_type="ff", label="F/F")
@@ -78,10 +83,10 @@ class FunctionViewsTestCase(TestCase):
         self.assertEqual(len(all_reactions), 1)
         self.assertEqual(all_reactions[0].reaction.text_emoji, "=)")
 
-    """
-        User can use multiple reactions for one chapter
-    """
     def test_react_to_chapter_user_use_another_reaction(self):
+        """
+            User can use multiple reactions for one chapter
+        """
         test_client = Client()
         test_client.login(username="Author2", password="pass")
         Reaction.objects.create(text_emoji="=(", text_legend="A frown")
@@ -101,10 +106,10 @@ class FunctionViewsTestCase(TestCase):
         self.assertEqual(all_reactions[0].reaction.text_emoji, "=)")
         self.assertEqual(all_reactions[1].reaction.text_emoji, "=(")
 
-    """
-        Posting to view a second time with a reaction already used will remove it. 
-    """
     def test_react_to_chapter_reaction_user_never_reacted(self):
+        """
+            Posting to view a second time with a reaction already used will remove it. 
+        """
         test_client = Client()
         test_client.login(username="Author2", password="pass")
         ReactionsRelationships.objects.create(

@@ -17,7 +17,7 @@ class ViewsVisibilityTestCase(TestCase):
 
     def test_voiture_noire_index(self):
         response = self.client.get(reverse("voiture_noire:index"), follow=True)
-        self.assertContains(response, 'La bibliothèque de ')
+        self.assertRedirects(response, reverse("library:index"))
         self.assertEqual(response.status_code, 200)
     
     def test_voiture_noire_members(self):

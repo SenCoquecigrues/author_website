@@ -15,7 +15,6 @@ def return_a_rec(user):
         )
     
     return eligible_stories.order_by('?').first()
-    
 
 def get_all_visible_stories(user, request_filters=None):
     stories = []
@@ -36,24 +35,14 @@ def get_all_visible_stories(user, request_filters=None):
     return []
 
 def get_all_visible_stories_of_author(user, author_id):
-    if user.is_authenticated:
-        return Story.objects.filter(
-            Q(author_id=author_id) &
-            (
-                (~Q(visibility='Private') & Q(story_date__lte=date.today()) | Q(author__member_id=user.id))
-            )
-        ).order_by('-story_date')
-    else:
-        return Story.objects.filter(
-            Q(visibility='Everyone') & (Q(story_date__lte=date.today()))
-        ).order_by('-story_date')
+    return get_all_visible_stories(user, {"authors": [author_id]})
 
 def filter_request(stories, request_filters):
-    if request_filters['pairing_types']:
+    if request_filters.get('pairing_types'):
         stories = stories.filter(pairing_type__id__in=request_filters['pairing_types'])
-    if request_filters['ratings']:
+    if request_filters.get('ratings'):
         stories = stories.filter(rating__in=request_filters['ratings'])
-    if request_filters['authors']:
+    if request_filters.get('authors'):
         stories = stories.filter(author__id__in=request_filters['authors'])
 
     return stories

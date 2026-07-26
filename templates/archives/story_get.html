@@ -1,6 +1,11 @@
 {% extends '../voiture_noire/base.html' %}
 
-{% block page_desc %}{{ story.summary }}{% endblock %}
+{% load extra_archives_tags %}
+{% visible_chapters story as chapters %}
+
+{% block page_desc %}
+    {{ story.summary }}
+{% endblock %}
 
 {% block stylesheet %}
 <link rel="stylesheet" href="/static/story_read.css">
@@ -102,19 +107,21 @@
         <footer>
             <section class="story-reactions">
                 <ul class="reaction-block">
-                {% for reaction in reactions %}
-                    <li>
-                        <button
-                            aria-label="{{ reaction.text_legend }}"
-                            {% if reaction.id in picked_reactions_ids %}
-                                class="reaction-selected"
-                            {% endif %}
-                            onclick="reactAs(event, {{ reaction.id }})"
-                        >
-                            {{ reaction.text_emoji }}
-                        </button>
-                    </li>
-                {% endfor %}
+                {% if request.user.is_authenticated %}
+                    {% for reaction in reactions %}
+                        <li>
+                            <button
+                                aria-label="{{ reaction.text_legend }}"
+                                {% if reaction.id in picked_reactions_ids %}
+                                    class="reaction-selected"
+                                {% endif %}
+                                onclick="reactAs(event, {{ reaction.id }})"
+                            >
+                                {{ reaction.text_emoji }}
+                            </button>
+                        </li>
+                    {% endfor %}
+                {% endif %}
                 </ul>
                     <button type="submit" id="clap-story-btn" onclick="clapStory()">
                         <img src="/static/images/hands-clapping.svg" alt="Applaudir l'histoire">

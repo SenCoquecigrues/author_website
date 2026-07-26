@@ -1,3 +1,6 @@
+{% load extra_archives_tags %}
+{% visible_chapters story as chapters %}
+
 <article class="article-story">
     <p class="article-story-date">{{ story.date }}</p>
     <div class="div-story-header-block">
@@ -90,9 +93,10 @@
         </p>
     {% endif %}
     </div>
-    {% if story.chapters.all.count > 1 %}
+
+    {% if chapters|length > 1 %}
     <div class="story-chapters">
-        {% for chapter in story.chapters.all %}
+        {% for chapter in chapters %}
             <a
                 class="article-story-btn"
                 href="{% url 'library:read_story' story.id chapter.number %}"

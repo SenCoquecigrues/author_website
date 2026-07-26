@@ -1,7 +1,8 @@
 import datetime
 
 from django.contrib import messages
-from django.http import HttpResponseNotAllowed, JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 
@@ -53,20 +54,25 @@ class StoryReadView(generic.View):
 
     def get(self, request, story_id, chapter_number, *args, **kwargs):
         request_user = self.request.user
+        picked_reactions_ids = []
 
         story = get_object_or_404(Story, pk=story_id)
         chapter = get_object_or_404(Chapter, story=story, number=chapter_number)
         reactions = Reaction.objects.all()
-        reaction_relationships = ReactionsRelationships.objects.filter(
-            member=self.request.user).filter(
-            chapter=chapter
-        )
-        picked_reactions_ids = [x.reaction.id for x in reaction_relationships]
+
+        if request_user.is_authenticated:
+            reaction_relationships = ReactionsRelationships.objects.filter(
+                member=self.request.user).filter(
+                chapter=chapter
+            )
+            picked_reactions_ids = [x.reaction.id for x in reaction_relationships]
 
         if request.user.is_authenticated is False and story.visibility != 'Everyone':
-            return redirect('voiture_noire:index')
+            return redirect('library:index')
         elif request_user.id != story.author.member.id and story.visibility == 'Private':
-            return redirect('voiture_noire:index')
+            return redirect('library:index')
+        elif request_user.id != story.author.member.id and story.story_date > datetime.date.today():
+            return redirect('library:index')
         else:
             return render(
                 request,
@@ -233,7 +239,7 @@ def story_delete(request, story_id):
         story.delete()
         return redirect('voiture_noire:profile')
     else:
-        raise HttpResponseNotAllowed("Vous n'êtes pas l'auteur de cette histoire !")
+        raise PermissionDenied
     
 def clap_story(request, story_id):
     try:

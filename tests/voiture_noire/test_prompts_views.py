@@ -60,9 +60,9 @@ class PromptsViewsTestCase(TestCase):
         self.assertEqual(len(prompts), 1)
 
     def test_sort_prompts_by_id(self):
-        prompt_one = Prompt.objects.get(pk=1)
-        prompt_two = Prompt.objects.create(body="another prompt")
-        prompt_three = Prompt.objects.create(body="another another prompt")
+        Prompt.objects.get(pk=1)
+        Prompt.objects.create(body="another prompt")
+        Prompt.objects.create(body="another another prompt")
 
         test_client = Client()
         test_client.login(username='User', password='pass')
@@ -73,9 +73,9 @@ class PromptsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_sort_prompts_by_any_valid_field(self):
-        prompt_one = Prompt.objects.get(pk=1)
-        prompt_two = Prompt.objects.create(body="another prompt")
-        prompt_three = Prompt.objects.create(body="another another prompt")
+        Prompt.objects.get(pk=1)
+        Prompt.objects.create(body="another prompt")
+        Prompt.objects.create(body="another another prompt")
 
         test_client = Client()
         test_client.login(username='User', password='pass')

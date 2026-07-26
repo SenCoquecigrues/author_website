@@ -1,7 +1,8 @@
 import json
 
 from django.contrib import messages
-from django.http import HttpResponseNotAllowed, JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 
@@ -133,7 +134,7 @@ def chapter_delete(request, chapter_id):
         chapter.delete()
         return redirect('voiture_noire:profile')
     else:
-        raise HttpResponseNotAllowed("Vous n'êtes pas l'autrice de ce récit !")
+        raise PermissionDenied
 
 def react_to_chapter(request, chapter_id):
     try:

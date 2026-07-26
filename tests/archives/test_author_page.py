@@ -1,14 +1,13 @@
 from datetime import date, timedelta
 
 
-from django.db.models import Q
 from django.test import Client, TestCase
 from django.urls import reverse
 from accounts.models import Member
 from archives.models import Author, PairingType, Story
 
 
-class IndexTestCase(TestCase):
+class AuthorPageTestCase(TestCase):
     def setUp(self):
         PairingType.objects.create(pairing_type="oth", label="Autre")
         PairingType.objects.create(pairing_type="het", label="Hétéro")
@@ -69,55 +68,30 @@ class IndexTestCase(TestCase):
         )
         story5.pairing_type.set(PairingType.objects.filter(label="Aucun"))
 
-    def test_index_unlogged(self):
-        response = self.client.get(reverse("archives:index"))
-        fetched_stories = response.context_data['stories']
-        visibility_status = {story.visibility for story in fetched_stories}
-        expected_stories = Story.objects.filter(
-            Q(visibility='Everyone') & (Q(story_date__lte=date.today()))
-        )
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertNotIn("Private", visibility_status) 
-        self.assertNotIn("Members only", visibility_status) 
-        self.assertIn("Everyone", visibility_status)
-        self.assertEqual(fetched_stories[0], expected_stories[0])
-        self.assertEqual(len(fetched_stories), 1)
-
-    def test_index_logged(self):
-        """
-            Members see all available stories except the others' Private ones.
-            Future stories are not displayed, except for an author's own stories.
-        """
-        test_client = Client()
-        test_client.login(username="Author2", password="pass")
-
-        response = test_client.get(reverse("archives:index"))
-        fetched_stories = response.context_data['stories']
-        story_titles = {story.story_title for story in fetched_stories}
-        user_id = Member.objects.get(username="Author2").id
-        count_relevant_stories = Story.objects.filter(
-            Q(author__member_id=user_id) | ((~Q(visibility='Private') & Q(story_date__lte=date.today())))
-        ).count()
-
-        self.assertEqual(len(fetched_stories), 4)
-        self.assertEqual(len(fetched_stories), count_relevant_stories)
-        self.assertIn("Private", story_titles)
-        self.assertNotIn("Future Title Author 1", story_titles)
-        self.assertIn("Future Title Author 2", story_titles)
-        self.assertEqual(response.status_code, 200)
-
-    def test_index_with_filters(self):
+    def test_index_as_author_page(self):
         test_client = Client()
         test_client.login(username="Author2", password="pass")
 
         response = test_client.get(
-            reverse("archives:index"), query_params={"filter_ratings": "g", "filter_pairing_types": "1"}
+            reverse("library:author_bibliography", kwargs={'author_id':2})
         )
         fetched_stories = response.context_data['stories']
-        story_titles = {story.story_title for story in fetched_stories}
 
-        self.assertEqual(len(fetched_stories), 1)
-        self.assertIn("Future Title Author 2", story_titles)
-        self.assertEqual(fetched_stories[0].pairing_type.all()[0].id, 1)
+        self.assertEqual(len(fetched_stories), 4)
+        self.assertEqual(response.status_code, 200)
+
+    def test_index_as_author_page_stories_still_not_visible(self):
+        """
+            Stories set as private or future still won't show up for
+            other members.
+        """
+        test_client = Client()
+        test_client.login(username="Author1", password="pass")
+
+        response = test_client.get(
+            reverse("library:author_bibliography", kwargs={'author_id':2})
+        )
+        fetched_stories = response.context_data['stories']
+
+        self.assertEqual(len(fetched_stories), 2)
         self.assertEqual(response.status_code, 200)

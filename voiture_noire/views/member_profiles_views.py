@@ -133,13 +133,7 @@ def brand_as_criminal(request, author_id):
 
     if author and request.user == author.member :
         author.criminal = not author.criminal
-
-        try:
-            author.save()
-        except Exception as e:
-            return JsonResponse(
-                {"success": False, "error": e}
-            )
+        author.save()
 
         return JsonResponse({"success": True})
     else:

@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.db.models import Q
 
 from accounts.models import Member
 
@@ -104,7 +105,7 @@ class Story(models.Model):
         if Chapter.objects.filter(story=self).count() > 1:
             return True
         return False
-    
+
     @property
     def first_chapter(self):
         return Chapter.objects.filter(story=self, number=1)[0]
@@ -112,6 +113,15 @@ class Story(models.Model):
     @property
     def number_of_chapter(self):
         return Chapter.objects.filter(story=self).count()
+
+    def visible_chapters(self, user):
+        if user == self.author.member:
+            return self.chapters.order_by("number")
+
+        return Chapter.objects.filter(
+            Q(story=self) & (Q(publishing_date__lte=datetime.date.today()))
+        )
+
 
     def __str__(self):
         return f"{self.author} : {self.story_title}"

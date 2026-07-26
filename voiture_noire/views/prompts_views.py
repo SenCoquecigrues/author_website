@@ -29,7 +29,7 @@ class PromptView(View):
 
         try:
             criteria = request.POST['sort_value']
-        except:
+        except Exception:
             raise BadRequest
 
         match criteria:

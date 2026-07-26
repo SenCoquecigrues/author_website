@@ -117,40 +117,35 @@ Check that all migrations are applied.
 2. If involving models: run migrations
 
 
-## TO-DO (v. 0.722)
-### Road to 0.723
-- [QUALITY] Add Voiture Noire Prompts tests
-
-### Road to 0.73: various fixes
-- [QUALITY] Test_profile_post is NOT done, remember
+## TO-DO (v. 0.723)
+### Road to 0.724:
+- [QUALITY] ProfilePostTestCase to complete
 - [QUALITY] Commit hook to run tests for modified files only?
 - [QUALITY] Warn if coverage level lowered?
 - [STORIES] Update test for editing and publishing chapters
-- [STORIES] Delete chapter from main page
-- [STORIES] Add detailled error return when a form is invalid (chapter, story)
 - [STORIES] Tests exports with test text. Try saying that many times very quickly
+
+### Road to 0.8: various fixes
+- [STORIES] Add detailled error return when a form is invalid (chapter, story)
 - [STORIES] Bigger emojis?
 - [STORIES] Better story_card element display flexibility
 - [STORIES] Better way for authors to know which reactions were shown for which chapter (perhaps chapter number?)
 - [STORIES] Improve story button display on very small screens
+- [STORIES] Fix clap button
 
 ### Must-have
-- [WRITER] Add buttons to filter rants
 - [ARCHIVES] Post : preview fic
 - [STORIES] Ensure automatic ebook folder cleaning up, just in case
-- [STORIES] Fix clap button
 - [STORIES] Post comment (ongoing: lacking view + checks)
 - [STORIES] User Comment
-- [STORIES] Add PDF thanks to [this library](https://www.geeksforgeeks.org/creating-ebooks-with-borb-in-python/).
-available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). Instruction book can be found
-[here](https://github.com/jorisschellekens/borb-examples/tree/master/chapter_001).
+- [WRITER] Add buttons to filter rants
 
 ### Nice to have
+- [STORIES] If reacting fails, a small error message
 - [STORIES] Add settings buttons to stories themselves
 - [STORIES] Custom covers
 - [PROMPTS] Search prompts through text
 - [STORIES] Replace ratings as instances by rating as choices? 
-- [GADGETS] Do something with the yaoi_generator
 
 ### Last priority
 - [PINE] (Mobile) : Rearrange banner
@@ -160,6 +155,17 @@ available [here](https://github.com/jorisschellekens/borb?tab=readme-ov-file). I
 - [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
 
 ## Version history
+### 0.723: improve archives test cover
+- [QUALITY] Add Voiture Noire Prompts tests
+- [QUALITY] Handle Story visibility tests
+- [QUALITY] More chapter tests
+- [QUALITY] More stories tests
+- [QUALITY] More reaction + clapping tests
+- [QUALITY] Various test improvements
+- [STORIES] Fix future chapter visibility (front & back)
+- [STORIES] Fix delete URL ambiguity
+- [STORIES] Unlogged users can't see the reaction buttons anymore
+
 ### 0.722: improve test cover
 - [QUALITY] Add Coverage
 - [QUALITY] Configure Coverage

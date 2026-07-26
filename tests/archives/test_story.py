@@ -1,14 +1,17 @@
 from datetime import date, timedelta
 
-
-from django.db.models import Q
 from django.test import Client, TestCase
 from django.urls import reverse
+
 from accounts.models import Member
-from archives.models import Author, PairingType, Story
+from archives.models import Author, Chapter, PairingType, Story
 
-
-class IndexTestCase(TestCase):
+class StoryTestCase(TestCase):
+    """
+        This tests solo story pages functions/views/etc.
+        It does NOT test read permission/access to solo stories: 
+        this is done in test_story_access.
+    """
     def setUp(self):
         PairingType.objects.create(pairing_type="oth", label="Autre")
         PairingType.objects.create(pairing_type="het", label="Hétéro")
@@ -17,10 +20,10 @@ class IndexTestCase(TestCase):
         PairingType.objects.create(pairing_type="gen", label="Aucun")
 
         Member.objects.create_user(
-            'Author1', email='author1@mail.fr', password='pass'
+            'Author1', password='pass'
         )
         Member.objects.create_user(
-            'Author2', email='author2@mail.fr', password='pass'
+            'Author2', password='pass'
         )
         Author.objects.create(
             member=Member.objects.get(username="Author1"),
@@ -35,10 +38,11 @@ class IndexTestCase(TestCase):
 
         story1 = Story.objects.create(
             author=Author.objects.get(nickname="Author2"), story_date=date.today(),
-            story_title="Visible By All Title", summary="Visible by all summary",
+            story_title="Visible Everyone", summary="Visible Everyone summary",
             rating="g", visibility="Everyone"
         )
         story1.pairing_type.set(PairingType.objects.filter(label="M/M"))
+        Chapter.objects.create(story=story1, content="Test Content Story 1", number=1)
 
         story2 = Story.objects.create(
             author=Author.objects.get(nickname="Author2"), story_date=date.today(),
@@ -47,6 +51,7 @@ class IndexTestCase(TestCase):
         )
         story2.pairing_type.set(PairingType.objects.filter(label="F/F"))
         story2.pairing_type.set(PairingType.objects.filter(label="M/M"))
+        Chapter.objects.create(story=story2, content="Test Content Story 2", number=1)
 
         story3 = Story.objects.create(
             author=Author.objects.get(nickname="Author2"), story_date=date.today(),
@@ -54,6 +59,7 @@ class IndexTestCase(TestCase):
             rating="g", visibility="Private"
         )
         story3.pairing_type.set(PairingType.objects.filter(label="Hétéro"))
+        Chapter.objects.create(story=story3, content="Test Content Story 3", number=1)
 
         story4 = Story.objects.create(
             author=Author.objects.get(nickname="Author2"), story_date=tomorrow,
@@ -61,6 +67,7 @@ class IndexTestCase(TestCase):
             rating="g", visibility="Everyone"
         )
         story4.pairing_type.set(PairingType.objects.filter(label="Autre"))
+        Chapter.objects.create(story=story4, content="Test Content Story 4", number=1)
 
         story5 = Story.objects.create(
             author=Author.objects.get(nickname="Author1"), story_date=tomorrow,
@@ -68,56 +75,63 @@ class IndexTestCase(TestCase):
             rating="g", visibility="Everyone"
         )
         story5.pairing_type.set(PairingType.objects.filter(label="Aucun"))
+        Chapter.objects.create(story=story5, content="Test Content Story 5", number=1)
 
-    def test_index_unlogged(self):
-        response = self.client.get(reverse("archives:index"))
-        fetched_stories = response.context_data['stories']
-        visibility_status = {story.visibility for story in fetched_stories}
-        expected_stories = Story.objects.filter(
-            Q(visibility='Everyone') & (Q(story_date__lte=date.today()))
+    """
+        PUBLISHING
+    """
+        #TODO
+
+    """
+        EDITING
+    """
+        #TODO
+
+    """
+        DELETING
+    """
+    def test_anon_delete_story(self):
+        response = self.client.get(
+            reverse("archives:story_delete", kwargs={'story_id':1}), follow=True
         )
-        
+        self.assertEqual(Story.objects.count(), 5)
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn("Private", visibility_status) 
-        self.assertNotIn("Members only", visibility_status) 
-        self.assertIn("Everyone", visibility_status)
-        self.assertEqual(fetched_stories[0], expected_stories[0])
-        self.assertEqual(len(fetched_stories), 1)
+        self.assertContains(response, 'Page de connexion')
 
-    def test_index_logged(self):
-        """
-            Members see all available stories except the others' Private ones.
-            Future stories are not displayed, except for an author's own stories.
-        """
+
+    def test_not_author_delete_story(self):
+        test_client = Client()
+        test_client.login(username="Author1", password="pass")
+
+        response = test_client.get(reverse("archives:story_delete", kwargs={'story_id':2}))
+        self.assertEqual(Story.objects.count(), 5)
+        self.assertEqual(response.status_code, 403)
+
+    def test_author_delete_story(self):
         test_client = Client()
         test_client.login(username="Author2", password="pass")
-
-        response = test_client.get(reverse("archives:index"))
-        fetched_stories = response.context_data['stories']
-        story_titles = {story.story_title for story in fetched_stories}
-        user_id = Member.objects.get(username="Author2").id
-        count_relevant_stories = Story.objects.filter(
-            Q(author__member_id=user_id) | ((~Q(visibility='Private') & Q(story_date__lte=date.today())))
-        ).count()
-
-        self.assertEqual(len(fetched_stories), 4)
-        self.assertEqual(len(fetched_stories), count_relevant_stories)
-        self.assertIn("Private", story_titles)
-        self.assertNotIn("Future Title Author 1", story_titles)
-        self.assertIn("Future Title Author 2", story_titles)
-        self.assertEqual(response.status_code, 200)
-
-    def test_index_with_filters(self):
-        test_client = Client()
-        test_client.login(username="Author2", password="pass")
-
         response = test_client.get(
-            reverse("archives:index"), query_params={"filter_ratings": "g", "filter_pairing_types": "1"}
-        )
-        fetched_stories = response.context_data['stories']
-        story_titles = {story.story_title for story in fetched_stories}
+            reverse("archives:story_delete", kwargs={'story_id':2}),
+            follow=True)
 
-        self.assertEqual(len(fetched_stories), 1)
-        self.assertIn("Future Title Author 2", story_titles)
-        self.assertEqual(fetched_stories[0].pairing_type.all()[0].id, 1)
+        self.assertEqual(Story.objects.count(), 4)
+        self.assertContains(response, "Votre profil")
         self.assertEqual(response.status_code, 200)
+
+    """
+        VARIOUS
+    """
+    def test_visible_chapters(self):
+        tomorrow = date.today() + timedelta(days=1)
+
+        story1 = Story.objects.get(pk=1)
+        Chapter.objects.create(story=story1, content="Second chapter", number=2)
+        Chapter.objects.create(
+            story=story1, content="Second chapter", number=3, publishing_date=tomorrow
+        )
+
+        member_is_author = Author.objects.get(nickname="Author2").member
+        member_not_author = Author.objects.get(nickname="Author1").member
+
+        self.assertEqual(len(story1.visible_chapters(member_is_author)), 3)
+        self.assertEqual(len(story1.visible_chapters(member_not_author)), 2)

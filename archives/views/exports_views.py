@@ -58,20 +58,13 @@ def export_epub(request, story_id):
     try:
         story = get_object_or_404(Story, id=story_id)
         file_title = f"{story.author}_{story.story_title}"
-        number_of_chapters = story.chapters.count()
-
-        if not number_of_chapters:
-            logging.error(
-                f"Error while attempting epub export for story {story}: no chapters found."
-            )
-            raise ValueError("Aucun chapitre trouvé !") 
 
         epub_path = Path(settings.GENERATED_FILES_DIR) / f"{file_title}.epub"
 
         foreword = foreword_epub_export(request, story_id).content
         list_of_html_chapters = [
             (
-                EpubFormatter.formatted_chapter_title(chapter, number_of_chapters ==1),
+                EpubFormatter.formatted_chapter_title(chapter, story.has_multiple_chapters),
                 export_epub_chapter(request, chapter).content
             ) for chapter in story.chapters.all()
         ]
