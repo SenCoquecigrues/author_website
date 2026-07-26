@@ -9,7 +9,7 @@ from django.views import generic
 from archives.forms import Author, ChapterForm, StoryForm, StoryFilterForm
 from archives.models import Chapter, Story, PairingType, Reaction, ReactionsRelationships
 
-from utils import stories_handler
+from archives.utils import permissions, stories_handler
 
 
 class Index(generic.ListView):
@@ -53,25 +53,20 @@ class StoryReadView(generic.View):
     template_name = 'archives/story_get.html'
 
     def get(self, request, story_id, chapter_number, *args, **kwargs):
-        request_user = self.request.user
         picked_reactions_ids = []
 
         story = get_object_or_404(Story, pk=story_id)
         chapter = get_object_or_404(Chapter, story=story, number=chapter_number)
         reactions = Reaction.objects.all()
 
-        if request_user.is_authenticated:
+        if request.user.is_authenticated:
             reaction_relationships = ReactionsRelationships.objects.filter(
-                member=self.request.user).filter(
+                member=request.user).filter(
                 chapter=chapter
             )
             picked_reactions_ids = [x.reaction.id for x in reaction_relationships]
 
-        if request.user.is_authenticated is False and story.visibility != 'Everyone':
-            return redirect('library:index')
-        elif request_user.id != story.author.member.id and story.visibility == 'Private':
-            return redirect('library:index')
-        elif request_user.id != story.author.member.id and story.story_date > datetime.date.today():
+        if not permissions.AccessPermission.get_story_is_allowed(request, story):
             return redirect('library:index')
         else:
             return render(
@@ -164,9 +159,8 @@ class StoryEditView(generic.View):
         story = get_object_or_404(Story, pk=story_id)
         chapters = Chapter.objects.filter(story=story)
 
-        if request.user != story.author.member:
-            redirect('voiture_noire:index')
-    
+        if not permissions.AccessPermission.modify_story_is_allowed(request, story):
+            return redirect('library:index')    
 
         story_form = self.story_form(
             instance=story,
@@ -185,8 +179,10 @@ class StoryEditView(generic.View):
     def post(self, request, story_id, *args, **kwargs):
         story_initial_instance = Story.objects.get(id=story_id)
         # NOTE : passer aussi les chapitres existants en arg
-        if request.user != story_initial_instance.author.member:
-            redirect('voiture_noire:index')
+        if not permissions.AccessPermission.modify_story_is_allowed(
+            request, story_initial_instance
+        ):
+            return redirect('library:index')
 
         story_form = StoryForm(request.POST)
 
@@ -235,7 +231,7 @@ class StoryEditView(generic.View):
 def story_delete(request, story_id):
     story = get_object_or_404(Story, pk=story_id)
 
-    if request.user == story.author.member:
+    if permissions.AccessPermission.modify_story_is_allowed(request, story):
         story.delete()
         return redirect('voiture_noire:profile')
     else:

@@ -1,3 +1,5 @@
+
+
 from datetime import date, timedelta
 
 from django.test import Client, TestCase
@@ -7,7 +9,7 @@ from accounts.models import Member
 from archives.models import Author, Chapter, PairingType, Story
 
 
-class HtmlExportsTestCase(TestCase):
+class EpubExportsAccessTestCase(TestCase):
     def setUp(self):
         PairingType.objects.create(pairing_type="oth", label="Autre")
         PairingType.objects.create(pairing_type="het", label="Hétéro")
@@ -39,18 +41,6 @@ class HtmlExportsTestCase(TestCase):
         )
         story1.pairing_type.set(PairingType.objects.filter(label="M/M"))
         Chapter.objects.create(story=story1, content="Test Content Story 1", number=1)
-        Chapter.objects.create(
-            story=story1,
-            content="Test Content Chapter 2",
-            number=2,
-            chapter_title="My Beautiful Chapter 2 Title"
-        )
-        Chapter.objects.create(
-            story=story1,
-            content="Test Content Chapter 3",
-            number=3,
-            publishing_date=tomorrow
-        )
 
         story2 = Story.objects.create(
             author=Author.objects.get(nickname="Author2"), story_date=date.today(),
@@ -83,15 +73,15 @@ class HtmlExportsTestCase(TestCase):
     """
     def test_export_access_everyone(self):
         response = self.client.get(
-            reverse("archives:export_html", kwargs={'story_id':1})
+            reverse("archives:export_epub", kwargs={'story_id':1})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Content Story 1')
+        self.assertEqual(response.headers["Content-Type"], "application/epub+zip")
 
     def test_export_access_member_only(self):
         # As anon
         response = self.client.get(
-            reverse("archives:export_html", kwargs={'story_id':2})
+            reverse("archives:export_epub", kwargs={'story_id':2})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/plain")
@@ -101,16 +91,15 @@ class HtmlExportsTestCase(TestCase):
         test_client.login(username="Author1", password="pass")
 
         response = test_client.get(
-            reverse("archives:export_html", kwargs={'story_id':2})
+            reverse("archives:export_epub", kwargs={'story_id':2})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.headers["Content-Type"], "text/html")
-
+        self.assertEqual(response.headers["Content-Type"], "application/epub+zip")
 
     def test_export_access_private(self):
         # As anon
         response = self.client.get(
-            reverse("archives:export_html", kwargs={'story_id':3})
+            reverse("archives:export_epub", kwargs={'story_id':3})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/plain")
@@ -120,7 +109,7 @@ class HtmlExportsTestCase(TestCase):
         test_client.login(username="Author1", password="pass")
 
         response = test_client.get(
-            reverse("archives:export_html", kwargs={'story_id':3})
+            reverse("archives:export_epub", kwargs={'story_id':3})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/plain")
@@ -130,15 +119,15 @@ class HtmlExportsTestCase(TestCase):
         test_client.login(username="Author2", password="pass")
 
         response = test_client.get(
-            reverse("archives:export_html", kwargs={'story_id':3})
+            reverse("archives:export_epub", kwargs={'story_id':3})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.headers["Content-Type"], "text/html")
+        self.assertEqual(response.headers["Content-Type"], "application/epub+zip")
 
     def test_export_access_future(self):
         # As anon
         response = self.client.get(
-            reverse("archives:export_html", kwargs={'story_id':4})
+            reverse("archives:export_epub", kwargs={'story_id':4})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/plain")
@@ -148,7 +137,7 @@ class HtmlExportsTestCase(TestCase):
         test_client.login(username="Author1", password="pass")
 
         response = test_client.get(
-            reverse("archives:export_html", kwargs={'story_id':4})
+            reverse("archives:export_epub", kwargs={'story_id':4})
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["Content-Type"], "text/plain")
@@ -158,51 +147,7 @@ class HtmlExportsTestCase(TestCase):
         test_client.login(username="Author2", password="pass")
 
         response = test_client.get(
-            reverse("archives:export_html", kwargs={'story_id':4})
+            reverse("archives:export_epub", kwargs={'story_id':4})
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.headers["Content-Type"], "text/html")
-
-    """
-        TEST CONTENT
-        Testing that we get:
-        - Visible chapters only
-        - Story Author note
-        - Chapter titles or not
-
-    """
-    def test_export_content_only_visible_chapters_not_author(self):
-        response = self.client.get(
-            reverse("archives:export_html", kwargs={'story_id':1})
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Content Story 1')
-        self.assertContains(response, 'Test Content Chapter 2')
-        self.assertNotContains(response, 'Test Content Chapter 3')
-
-    def test_export_content_only_visible_chapters_is_author(self):
-        test_client = Client()
-        test_client.login(username="Author2", password="pass")
-
-        response = test_client.get(
-            reverse("archives:export_html", kwargs={'story_id':1})
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Content Story 1')
-        self.assertContains(response, 'Test Content Chapter 2')
-        self.assertContains(response, 'Test Content Chapter 3')
-
-    def test_export_content_display_chapter_titles(self):
-        response = self.client.get(
-            reverse("archives:export_html", kwargs={'story_id':1})
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Chapitre 1')
-        self.assertContains(response, 'Chapitre 2 : My Beautiful Chapter 2 Title')
-
-    def test_export_content_visible_author_note(self):
-        response = self.client.get(
-            reverse("archives:export_html", kwargs={'story_id':1})
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'An author note')
+        self.assertEqual(response.headers["Content-Type"], "application/epub+zip")

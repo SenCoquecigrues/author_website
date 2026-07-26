@@ -117,13 +117,12 @@ Check that all migrations are applied.
 2. If involving models: run migrations
 
 
-## TO-DO (v. 0.723)
-### Road to 0.724:
+## TO-DO (v. 0.724)
+### Road to 0.725:
 - [QUALITY] ProfilePostTestCase to complete
 - [QUALITY] Commit hook to run tests for modified files only?
-- [QUALITY] Warn if coverage level lowered?
 - [STORIES] Update test for editing and publishing chapters
-- [STORIES] Tests exports with test text. Try saying that many times very quickly
+- [STORIES] Investigate with epub owners to know if I can create prologues rather than chapter 1
 
 ### Road to 0.8: various fixes
 - [STORIES] Add detailled error return when a form is invalid (chapter, story)
@@ -155,6 +154,10 @@ Check that all migrations are applied.
 - [PROMPTS] Properly implement [error messages](https://docs.djangoproject.com/en/5.1/ref/contrib/messages/)
 
 ## Version history
+### 0.724: improve archives test cover
+- [STORIES] Tests HTML exports
+- [STORIES] Tests epub exports
+
 ### 0.723: improve archives test cover
 - [QUALITY] Add Voiture Noire Prompts tests
 - [QUALITY] Handle Story visibility tests

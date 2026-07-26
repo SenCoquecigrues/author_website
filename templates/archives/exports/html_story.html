@@ -1,3 +1,6 @@
+{% load extra_archives_tags %}
+{% visible_chapters story as chapters %}
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -25,14 +28,14 @@
                 {% endif %}
             </header>
 
-            {% if story.chapters.all.count %}
+            {% if chapters.all.count %}
                 <nav id="table-of-content">
                     <h2 class="admin-h2">Table des matières</p>
                     <ul>
-                        {% for chapter in story.chapters.all %}
+                        {% for chapter in chapters.all %}
                             <li>
                                 <a href="#start-chapter-{{ chapter.number }}">
-                                    Chapitre {{chapter.number}} {% if chapter.chapter_title %} : {{ chapter.chapter_title}} {% endif %}
+                                    Chapitre {{chapter.number}}{% if chapter.chapter_title %} : {{ chapter.chapter_title}} {% endif %}
                                 </a>
                             </li>
                         {% endfor %}
@@ -40,7 +43,7 @@
                 </nav> 
             {% endif %}
             
-            {% for chapter in story.chapters.all %}
+            {% for chapter in chapters.all %}
             <section>
                 <h2 id="start-chapter-{{ chapter.number }}">
                     Chapitre {{ chapter.number }} {% if chapter.chapter_title %} : {{ chapter.chapter_title}} {% endif %}

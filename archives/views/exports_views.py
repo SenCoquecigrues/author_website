@@ -2,6 +2,7 @@ import logging
 
 from pathlib import Path
 
+from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render
@@ -9,10 +10,17 @@ from django.urls import reverse
 
 from archives.models import Story
 from archives.utils.epub import EpubFormatter
+from archives.utils import permissions
 
 def story_for_html_export(request, story_id):
     story = get_object_or_404(Story, id=story_id)
-    story_url = reverse("archives:read_story", kwargs={'story_id':1, 'chapter_number': 1})
+
+    if not permissions.AccessPermission.get_story_is_allowed(request, story):
+        raise PermissionDenied
+
+    story_url = reverse(
+        "archives:read_story", kwargs={'story_id':story_id, 'chapter_number': 1}
+    )
     full_story_url = request.build_absolute_uri(story_url)
 
     return render(
@@ -22,20 +30,36 @@ def story_for_html_export(request, story_id):
     )
 
 def export_html(request, story_id):
-    story = get_object_or_404(Story, id=story_id)
-    file_title = f"{story.author}_{story.story_title}"
-    story_html = story_for_html_export(request, story_id)
+    try:
+        story = get_object_or_404(Story, id=story_id)
 
-    return HttpResponse(
-        story_html,
-        content_type='text/html',
-        headers={
-            'Content-Disposition': f'attachment; filename="{file_title}.html"'
-        },
-    )
+        file_title = f"{story.author}_{story.story_title}"
+        story_html = story_for_html_export(request, story_id)
+
+        return HttpResponse(
+            story_html,
+            content_type='text/html',
+            headers={
+                'Content-Disposition': f'attachment; filename="{file_title}.html"'
+            },
+        )
+
+    except Exception as e:
+        logging.error(f"Error while attempting to export {file_title} : {e}")
+        return HttpResponse(
+            f"L'export a échoué car Sen est une misérable. Contactez-la. Regardez-la droit dans les yeux. (erreur : {e})",
+            content_type='text/plain',
+            headers={
+                'Content-Disposition': 'attachment; filename="export_failed.txt"'
+            },
+        )
 
 def foreword_epub_export(request, story_id):
     story = get_object_or_404(Story, id=story_id)
+
+    if not permissions.AccessPermission.get_story_is_allowed(request, story):
+        raise PermissionDenied
+
     story_url = reverse("archives:read_story", kwargs={'story_id':1, 'chapter_number': 1})
     full_story_url = request.build_absolute_uri(story_url)
     formatted_author_note = EpubFormatter.format_content(story.story_author_note)
@@ -48,6 +72,9 @@ def foreword_epub_export(request, story_id):
 def export_epub_chapter(request, chapter):
     formatted_chapter = EpubFormatter.format_content(chapter.content)
 
+    if not permissions.AccessPermission.get_story_is_allowed(request, chapter.story):
+        raise PermissionDenied
+
     return render(
             request,
             'archives/exports/epub_chapter.html',
@@ -57,6 +84,7 @@ def export_epub_chapter(request, chapter):
 def export_epub(request, story_id):
     try:
         story = get_object_or_404(Story, id=story_id)
+
         file_title = f"{story.author}_{story.story_title}"
 
         epub_path = Path(settings.GENERATED_FILES_DIR) / f"{file_title}.epub"
@@ -66,7 +94,7 @@ def export_epub(request, story_id):
             (
                 EpubFormatter.formatted_chapter_title(chapter, story.has_multiple_chapters),
                 export_epub_chapter(request, chapter).content
-            ) for chapter in story.chapters.all()
+            ) for chapter in story.visible_chapters(request.user)
         ]
 
         EpubFormatter.create_epub(story, file_title, foreword, list_of_html_chapters)
