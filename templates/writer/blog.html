@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="/static/homepage.css" />
+<link rel="stylesheet" href="/static/blog.css" />
 {% endblock %} {% block content %}
 
 <div class="block-news-page-title">
@@ -13,7 +13,7 @@
     <h1 id="news-page-title">Aux nouvelles</h1>
 </div>
 
-<section class="homepage-body">
+<section class="blog-body">
     {% for post in latest_posts %}
         <article class="post-block">
             <h2 class="h2-writer post-date">

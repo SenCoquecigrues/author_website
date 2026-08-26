@@ -8,8 +8,8 @@ from django.views import generic
 from .models import Post
 
 
-class Homepage(generic.ListView):
-    template_name = 'writer/homepage.html'
+class Blog(generic.ListView):
+    template_name = 'writer/blog.html'
     context_object_name = 'latest_posts'
 
     def get_queryset(self):

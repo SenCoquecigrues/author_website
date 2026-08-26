@@ -4,7 +4,7 @@ from django.views.generic.base import TemplateView
 from . import views
 
 urlpatterns = [
-    path('', views.Homepage.as_view(), name='homepage'),
+    path('blog', views.Blog.as_view(), name='blog'),
     path('about', views.about, name='about'),
     path(
         "robots.txt",

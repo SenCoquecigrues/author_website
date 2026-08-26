@@ -10,7 +10,7 @@ from writer.models import Post
 
 
 class WriterTestCase(TestCase):
-    def test_homepage(self):
+    def test_blog(self):
         # Set up
         date_today = datetime.date.today()
         tomorrow = date_today + datetime.timedelta(days=1)
@@ -38,7 +38,7 @@ class WriterTestCase(TestCase):
         )
 
         # Test itself
-        response = self.client.get(reverse('homepage'))
+        response = self.client.get(reverse('blog'))
 
         self.assertContains(response, 'Two days ago, this was posted')
         self.assertContains(response, 'Yesterday, this was posted')

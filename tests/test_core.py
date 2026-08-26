@@ -22,8 +22,8 @@ class CoreTestCase(TestCase):
         self.assertContains(response, 'Petite Voiture Noire')
         self.assertEqual(response.status_code, 200)
 
-    def test_homepage_view(self):
-        response = self.client.get(reverse("homepage"))
+    def test_blog_view(self):
+        response = self.client.get(reverse("blog"))
         self.assertContains(response, 'My Name, grande autrice')
         self.assertEqual(response.status_code, 200)
 

@@ -43,7 +43,7 @@
 }
 
 @media screen and (min-width: 1401px){
-    main:has(.homepage-body) {
+    main:has(.blog-body) {
         margin-left: 22vw;
         margin-right: 22vw;
     }
