@@ -56,6 +56,7 @@ pytest.ini
 
 # ENV
 .env
+.python-version
 /utils/json/author_profile.json
 
 # LOCAL
