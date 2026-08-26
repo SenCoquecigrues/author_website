@@ -1,14 +1,14 @@
+"""
+WSGI config for core project.
 
-import os
-import sys
+It exposes the WSGI callable as a module-level variable named ``application``.
 
+For more information on this file, see
+https://docs.djangoproject.com/en/4.1/howto/deployment/wsgi/
+"""
 
-sys.path.insert(0, os.path.dirname(__file__))
+from django.core.wsgi import get_wsgi_application
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
-def application(environ, start_response):
-    start_response('200 OK', [('Content-Type', 'text/plain')])
-    message = 'It works!\n'
-    version = 'Python %s\n' % sys.version.split()[0]
-    response = '\n'.join([message, version])
-    return [response.encode()]
+application = get_wsgi_application()
